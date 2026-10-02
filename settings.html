@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - PlacementHub</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .settings-page {
+            padding: 30px;
+        }
+
+        .settings-header {
+            margin-bottom: 25px;
+        }
+
+        .settings-header h1 {
+            margin: 0 0 6px;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .settings-header p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .settings-container {
+            max-width: 900px;
+        }
+
+        .settings-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .settings-card h2 {
+            margin: 0 0 5px;
+            font-size: 19px;
+            color: #111827;
+        }
+
+        .settings-description {
+            margin: 0 0 22px;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .password-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .settings-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .settings-form-group label {
+            color: #374151;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding: 11px 45px 11px 13px;
+            border: 1px solid #dfe3e8;
+            border-radius: 9px;
+            outline: none;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .password-wrapper input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .settings-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 3px;
+        }
+
+        .primary-btn {
+            border: none;
+            background: #4f46e5;
+            color: #ffffff;
+            padding: 11px 20px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .primary-btn:hover {
+            background: #4338ca;
+        }
+
+        .settings-message {
+            font-size: 13px;
+        }
+
+        .data-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .data-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 17px 0;
+            border-bottom: 1px solid #eef0f3;
+        }
+
+        .data-row:first-child {
+            padding-top: 0;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .data-info h3 {
+            margin: 0 0 4px;
+            color: #111827;
+            font-size: 14px;
+        }
+
+        .data-info p {
+            margin: 0;
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .danger-btn {
+            border: 1px solid #fecaca;
+            background: #fff;
+            color: #dc2626;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .danger-btn:hover {
+            background: #fef2f2;
+        }
+
+        .danger-card {
+            border-color: #fecaca;
+        }
+
+        .danger-card h2 {
+            color: #b91c1c;
+        }
+
+        .clear-all-btn {
+            border: none;
+            background: #dc2626;
+            color: #ffffff;
+            padding: 11px 20px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .clear-all-btn:hover {
+            background: #b91c1c;
+        }
+
+        .logout-btn {
+            border: 1px solid #e5e7eb;
+            background: #ffffff;
+            color: #374151;
+            padding: 10px 18px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: #f9fafb;
+        }
+
+        @media (max-width: 700px) {
+            .settings-page {
+                padding: 20px;
+            }
+
+            .password-form {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-actions {
+                grid-column: auto;
+            }
+
+            .data-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <div class="logo-icon">PH</div>
+
+            <div>
+                <h2>PlacementHub</h2>
+                <span>Student Portal</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-item">
+                <span>🏠</span>
+                Dashboard
+            </a>
+
+            <a href="applications.html" class="nav-item">
+                <span>📋</span>
+                Applications
+            </a>
+
+            <a href="companies.html" class="nav-item">
+                <span>🏢</span>
+                Companies
+            </a>
+
+            <a href="interviews.html" class="nav-item">
+                <span>📅</span>
+                Interviews
+            </a>
+
+            <a href="analytics.html" class="nav-item">
+                <span>📊</span>
+                Analytics
+            </a>
+
+            <a href="profile.html" class="nav-item">
+                <span>👤</span>
+                My Profile
+            </a>
+
+            <a href="settings.html" class="nav-item active">
+                <span>⚙️</span>
+                Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="main-content">
+
+        <div class="settings-page">
+
+            <div class="settings-header">
+                <h1>Settings</h1>
+                <p>Manage your account and PlacementHub data</p>
+            </div>
+
+            <div class="settings-container">
+
+                <div class="settings-card">
+
+                    <h2>Change Password</h2>
+
+                    <p class="settings-description">
+                        Update the password used for your PlacementHub login.
+                    </p>
+
+                    <form id="passwordForm" class="password-form">
+
+                        <div class="settings-form-group">
+
+                            <label for="currentPassword">
+                                Current Password
+                            </label>
+
+                            <div class="password-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="currentPassword"
+                                    placeholder="Enter current password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="toggle-password"
+                                    data-target="currentPassword">
+                                    👁
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="settings-form-group">
+
+                            <label for="newPassword">
+                                New Password
+                            </label>
+
+                            <div class="password-wrapper">
+
+                                <input
+                                    type="password"
+                                    id="newPassword"
+                                    placeholder="Minimum 6 characters"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="toggle-password"
+                                    data-target="newPassword">
+                                    👁
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="settings-actions">
+
+                            <button
+                                type="submit"
+                                class="primary-btn">
+                                Update Password
+                            </button>
+
+                            <span
+                                class="settings-message"
+                                id="passwordMessage">
+                            </span>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="settings-card">
+
+                    <h2>Data Management</h2>
+
+                    <p class="settings-description">
+                        Delete individual sections of your PlacementHub data.
+                    </p>
+
+                    <div class="data-list">
+
+                        <div class="data-row">
+
+                            <div class="data-info">
+
+                                <h3>Applications</h3>
+
+                                <p>
+                                    Delete all saved job applications.
+                                </p>
+
+                            </div>
+
+                            <button
+                                class="danger-btn"
+                                data-storage="applications">
+                                Clear
+                            </button>
+
+                        </div>
+
+                        <div class="data-row">
+
+                            <div class="data-info">
+
+                                <h3>Companies</h3>
+
+                                <p>
+                                    Delete all saved company information.
+                                </p>
+
+                            </div>
+
+                            <button
+                                class="danger-btn"
+                                data-storage="companies">
+                                Clear
+                            </button>
+
+                        </div>
+
+                        <div class="data-row">
+
+                            <div class="data-info">
+
+                                <h3>Interviews</h3>
+
+                                <p>
+                                    Delete all saved interview information.
+                                </p>
+
+                            </div>
+
+                            <button
+                                class="danger-btn"
+                                data-storage="interviews">
+                                Clear
+                            </button>
+
+                        </div>
+
+                        <div class="data-row">
+
+                            <div class="data-info">
+
+                                <h3>Profile</h3>
+
+                                <p>
+                                    Delete your saved profile information.
+                                </p>
+
+                            </div>
+
+                            <button
+                                class="danger-btn"
+                                data-storage="profile">
+                                Clear
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="settings-card danger-card">
+
+                    <h2>Danger Zone</h2>
+
+                    <p class="settings-description">
+                        These actions cannot be undone.
+                    </p>
+
+                    <div class="data-row">
+
+                        <div class="data-info">
+
+                            <h3>Clear All Project Data</h3>
+
+                            <p>
+                                Delete applications, companies, interviews and profile data.
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="clear-all-btn"
+                            id="clearAllBtn">
+                            Clear All Data
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="settings-card">
+
+                    <h2>Account</h2>
+
+                    <p class="settings-description">
+                        End your current PlacementHub session.
+                    </p>
+
+                    <button
+                        class="logout-btn"
+                        id="logoutBtn">
+                        Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const authToken =
+        localStorage.getItem("authToken");
+
+    if (!authToken) {
+
+        window.location.href =
+            "index.html";
+
+        return;
+    }
+
+
+    const API_BASE =
+        "http://localhost:3000/api";
+
+
+    /* ================= PASSWORD ================= */
+
+    const passwordForm =
+        document.getElementById("passwordForm");
+
+    const passwordMessage =
+        document.getElementById("passwordMessage");
+
+
+    passwordForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            const currentPassword =
+                document
+                    .getElementById("currentPassword")
+                    .value;
+
+            const newPassword =
+                document
+                    .getElementById("newPassword")
+                    .value;
+
+            passwordMessage.textContent = "";
+            passwordMessage.style.color =
+                "#dc2626";
+
+
+            if (newPassword.length < 6) {
+
+                passwordMessage.textContent =
+                    "New password must contain at least 6 characters.";
+
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_BASE +
+                        "/change-password",
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    "Bearer " +
+                                    authToken
+                            },
+
+                            body: JSON.stringify({
+                                currentPassword:
+                                    currentPassword,
+
+                                newPassword:
+                                    newPassword
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (response.status === 401) {
+
+                    localStorage.clear();
+
+                    window.location.href =
+                        "index.html";
+
+                    return;
+                }
+
+
+                if (!response.ok) {
+
+                    passwordMessage.textContent =
+                        data.message ||
+                        "Unable to update password.";
+
+                    return;
+                }
+
+
+                passwordForm.reset();
+
+                passwordMessage.textContent =
+                    "Password updated successfully.";
+
+                passwordMessage.style.color =
+                    "#16a34a";
+
+
+                setTimeout(function () {
+
+                    passwordMessage.textContent = "";
+
+                }, 2500);
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                passwordMessage.textContent =
+                    "Unable to connect to server.";
+
+            }
+
+        }
+    );
+
+
+    /* ================= SHOW / HIDE PASSWORD ================= */
+
+    const toggleButtons =
+        document.querySelectorAll(
+            ".toggle-password"
+        );
+
+
+    toggleButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const targetId =
+                        button.getAttribute(
+                            "data-target"
+                        );
+
+                    const input =
+                        document.getElementById(
+                            targetId
+                        );
+
+
+                    if (
+                        input.type ===
+                        "password"
+                    ) {
+
+                        input.type = "text";
+
+                        button.textContent =
+                            "🙈";
+
+                    } else {
+
+                        input.type =
+                            "password";
+
+                        button.textContent =
+                            "👁";
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    /* ================= CLEAR INDIVIDUAL DATA ================= */
+
+    const clearButtons =
+        document.querySelectorAll(
+            ".danger-btn"
+        );
+
+
+    clearButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                async function () {
+
+                    const storageKey =
+                        button.getAttribute(
+                            "data-storage"
+                        );
+
+
+                    const confirmed =
+                        confirm(
+                            "Are you sure you want to delete this data?"
+                        );
+
+
+                    if (!confirmed) {
+                        return;
+                    }
+
+
+                    let endpoint = "";
+
+
+                    if (
+                        storageKey ===
+                        "applications"
+                    ) {
+
+                        endpoint =
+                            "/applications/all";
+
+                    } else if (
+                        storageKey ===
+                        "companies"
+                    ) {
+
+                        endpoint =
+                            "/companies/all";
+
+                    } else if (
+                        storageKey ===
+                        "interviews"
+                    ) {
+
+                        endpoint =
+                            "/interviews/all";
+
+                    } else if (
+                        storageKey ===
+                        "profile"
+                    ) {
+
+                        endpoint =
+                            "/profile";
+
+                    }
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                API_BASE +
+                                endpoint,
+                                {
+                                    method: "DELETE",
+
+                                    headers: {
+                                        "Authorization":
+                                            "Bearer " +
+                                            authToken
+                                    }
+                                }
+                            );
+
+
+                        const data =
+                            await response.json();
+
+
+                        if (
+                            response.status ===
+                            401
+                        ) {
+
+                            localStorage.clear();
+
+                            window.location.href =
+                                "index.html";
+
+                            return;
+                        }
+
+
+                        if (!response.ok) {
+
+                            alert(
+                                data.message ||
+                                "Unable to clear data."
+                            );
+
+                            return;
+                        }
+
+
+                        if (
+                            storageKey ===
+                            "profile"
+                        ) {
+
+                            localStorage.removeItem(
+                                "profile"
+                            );
+
+                        }
+
+
+                        alert(
+                            data.message ||
+                            "Data cleared successfully."
+                        );
+
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        alert(
+                            "Unable to connect to server."
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    /* ================= CLEAR ALL DATA ================= */
+
+    const clearAllBtn =
+        document.getElementById(
+            "clearAllBtn"
+        );
+
+
+    clearAllBtn.addEventListener(
+        "click",
+        async function () {
+
+            const confirmed =
+                confirm(
+                    "This will delete all Applications, Companies, Interviews and Profile data. Continue?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_BASE +
+                        "/data/all",
+                        {
+                            method: "DELETE",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " +
+                                    authToken
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    response.status ===
+                    401
+                ) {
+
+                    localStorage.clear();
+
+                    window.location.href =
+                        "index.html";
+
+                    return;
+                }
+
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Unable to clear all data."
+                    );
+
+                    return;
+                }
+
+
+                localStorage.removeItem(
+                    "applications"
+                );
+
+                localStorage.removeItem(
+                    "companies"
+                );
+
+                localStorage.removeItem(
+                    "interviews"
+                );
+
+                localStorage.removeItem(
+                    "profile"
+                );
+
+
+                alert(
+                    data.message ||
+                    "All project data has been cleared."
+                );
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Unable to connect to server."
+                );
+
+            }
+
+        }
+    );
+
+
+    /* ================= LOGOUT ================= */
+
+    const logoutBtn =
+        document.getElementById(
+            "logoutBtn"
+        );
+
+
+    logoutBtn.addEventListener(
+        "click",
+        function () {
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to logout?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            localStorage.removeItem(
+                "authToken"
+            );
+
+            localStorage.removeItem(
+                "loggedInUser"
+            );
+
+            localStorage.removeItem(
+                "userName"
+            );
+
+            localStorage.removeItem(
+                "userRole"
+            );
+
+            localStorage.removeItem(
+                "userId"
+            );
+
+
+            window.location.href =
+                "index.html";
+
+        }
+    );
+
+});
+
+</script>
+
+</body>
+</html>

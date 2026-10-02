@@ -1,0 +1,1666 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PlacementHub - Applications</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+                <div class="logo-icon">PH</div>
+
+                <div>
+                    <h2>PlacementHub</h2>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="dashboard.html" class="nav-item">
+                    <span>🏠</span>
+                    Dashboard
+                </a>
+
+                <a href="applications.html" class="nav-item active">
+                    <span>📋</span>
+                    Applications
+                </a>
+
+                <a href="companies.html" class="nav-item">
+                    <span>🏢</span>
+                    Companies
+                </a>
+
+                <a href="interviews.html" class="nav-item">
+                    <span>📅</span>
+                    Interviews
+                </a>
+
+                <a href="analytics.html" class="nav-item">
+                    <span>📊</span>
+                    Analytics
+                </a>
+
+                <a href="profile.html" class="nav-item">
+                    <span>👤</span>
+                    My Profile
+                </a>
+
+                <a href="settings.html" class="nav-item">
+                    <span>⚙️</span>
+                    Settings
+                </a>
+
+            </nav>
+
+            <a href="index.html" class="nav-item logout" id="logoutBtn">
+                <span>🚪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Topbar -->
+            <header class="topbar">
+
+                <div>
+                    <h1>Applications</h1>
+                    <p>Track and manage your placement applications</p>
+                </div>
+
+                <div class="topbar-right">
+
+                    <button class="notification-btn">
+                        🔔
+                    </button>
+
+                    <div class="profile-mini">
+
+                        <div class="profile-avatar">
+                            H
+                        </div>
+
+                        <div>
+                            <strong id="userName">Student</strong>
+                            <span>Student</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- Page Content -->
+            <section class="page-content">
+
+                <div class="application-header">
+
+                    <div>
+                        <h2>My Applications</h2>
+                        <p>Manage all your placement applications in one place.</p>
+                    </div>
+
+                    <button class="primary-btn" id="addApplicationBtn">
+                        + Add Application
+                    </button>
+
+                </div>
+
+
+
+                <!-- Search and Filter -->
+
+                <div class="application-tools">
+
+                    <div class="search-box">
+
+                        <span>🔍</span>
+
+                        <input
+                            type="text"
+                            id="searchApplication"
+                            placeholder="Search company or role..."
+                        >
+
+                    </div>
+
+
+
+                    <select id="statusFilter">
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="Applied">
+                            Applied
+                        </option>
+
+                        <option value="Shortlisted">
+                            Shortlisted
+                        </option>
+
+                        <option value="Interview">
+                            Interview
+                        </option>
+
+                        <option value="Selected">
+                            Selected
+                        </option>
+
+                        <option value="Rejected">
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- Applications Table -->
+
+                <div class="application-table-card">
+
+                    <div class="table-header">
+
+                        <div>
+                            <h3>Application List</h3>
+                            <p>Your placement applications</p>
+                        </div>
+
+                        <span id="applicationCount">
+                            0 Applications
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Role</th>
+                                    <th>Package</th>
+                                    <th>Applied Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+
+
+
+                            <tbody id="applicationTable"></tbody>
+
+                        </table>
+
+
+
+                        <!-- Empty State -->
+
+                        <div id="emptyState" class="empty-state">
+
+                            <div class="empty-icon">
+                                📋
+                            </div>
+
+                            <h3>No Applications Yet</h3>
+
+                            <p>
+                                You haven't added any placement applications.
+                            </p>
+
+                            <button
+                                class="primary-btn"
+                                id="emptyAddBtn"
+                            >
+                                + Add Your First Application
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- Add / Edit Application Modal -->
+
+    <div class="modal-overlay" id="applicationModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2 id="modalTitle">
+                        Add Application
+                    </h2>
+
+                    <p>
+                        Enter your placement application details.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="close-btn"
+                    id="closeModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <form id="applicationForm">
+
+                <div class="form-group">
+
+                    <label for="companyName">
+                        Company Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="companyName"
+                        placeholder="e.g. TCS"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="jobRole">
+                        Job Role
+                    </label>
+
+                    <input
+                        type="text"
+                        id="jobRole"
+                        placeholder="e.g. Software Developer"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="package">
+                            Package
+                        </label>
+
+                        <input
+                            type="text"
+                            id="package"
+                            placeholder="e.g. 7 LPA"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="appliedDate">
+                            Applied Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="appliedDate"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="applicationStatus">
+                        Application Status
+                    </label>
+
+                    <select id="applicationStatus">
+
+                        <option value="Applied">
+                            Applied
+                        </option>
+
+                        <option value="Shortlisted">
+                            Shortlisted
+                        </option>
+
+                        <option value="Interview">
+                            Interview
+                        </option>
+
+                        <option value="Selected">
+                            Selected
+                        </option>
+
+                        <option value="Rejected">
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        id="cancelModal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                        id="saveApplicationBtn"
+                    >
+                        Save Application
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        // ================================
+        // AUTHENTICATION
+        // ================================
+
+        const authToken =
+            localStorage.getItem("authToken");
+
+        if (!authToken) {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+
+        const API_URL =
+            "http://localhost:3000/api/applications";
+
+
+
+        // ================================
+        // USER
+        // ================================
+
+        const userName =
+            document.getElementById("userName");
+
+        const storedUserName =
+            localStorage.getItem("userName");
+
+        if (storedUserName) {
+
+            userName.textContent =
+                storedUserName;
+
+        }
+
+
+
+        // ================================
+        // LOGOUT
+        // ================================
+
+        const logoutBtn =
+            document.getElementById("logoutBtn");
+
+        logoutBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                logoutUser();
+
+            }
+        );
+
+
+
+        // ================================
+        // ELEMENTS
+        // ================================
+
+        const addApplicationBtn =
+            document.getElementById(
+                "addApplicationBtn"
+            );
+
+        const emptyAddBtn =
+            document.getElementById(
+                "emptyAddBtn"
+            );
+
+        const applicationModal =
+            document.getElementById(
+                "applicationModal"
+            );
+
+        const closeModal =
+            document.getElementById(
+                "closeModal"
+            );
+
+        const cancelModal =
+            document.getElementById(
+                "cancelModal"
+            );
+
+        const applicationForm =
+            document.getElementById(
+                "applicationForm"
+            );
+
+        const applicationTable =
+            document.getElementById(
+                "applicationTable"
+            );
+
+        const emptyState =
+            document.getElementById(
+                "emptyState"
+            );
+
+        const applicationCount =
+            document.getElementById(
+                "applicationCount"
+            );
+
+        const modalTitle =
+            document.getElementById(
+                "modalTitle"
+            );
+
+        const saveApplicationBtn =
+            document.getElementById(
+                "saveApplicationBtn"
+            );
+
+
+
+        // ================================
+        // FORM INPUTS
+        // ================================
+
+        const companyName =
+            document.getElementById(
+                "companyName"
+            );
+
+        const jobRole =
+            document.getElementById(
+                "jobRole"
+            );
+
+        const packageInput =
+            document.getElementById(
+                "package"
+            );
+
+        const appliedDate =
+            document.getElementById(
+                "appliedDate"
+            );
+
+        const applicationStatus =
+            document.getElementById(
+                "applicationStatus"
+            );
+
+
+
+        // ================================
+        // APPLICATION DATA
+        // ================================
+
+        let applications = [];
+
+        let editingId = null;
+
+
+
+        // ================================
+        // API HEADERS
+        // ================================
+
+        function getHeaders() {
+
+            return {
+
+                "Content-Type":
+                    "application/json",
+
+                "Authorization":
+                    "Bearer " + authToken
+
+            };
+
+        }
+
+
+
+        // ================================
+        // LOGOUT FUNCTION
+        // ================================
+
+        function logoutUser() {
+
+            localStorage.removeItem(
+                "authToken"
+            );
+
+            localStorage.removeItem(
+                "loggedInUser"
+            );
+
+            localStorage.removeItem(
+                "userName"
+            );
+
+            localStorage.removeItem(
+                "userRole"
+            );
+
+            localStorage.removeItem(
+                "userId"
+            );
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+
+        // ================================
+        // LOAD APPLICATIONS
+        // ================================
+
+        async function loadApplications() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL,
+                        {
+                            method: "GET",
+                            headers: getHeaders()
+                        }
+                    );
+
+
+
+                if (response.status === 401) {
+
+                    logoutUser();
+
+                    return;
+
+                }
+
+
+
+                const responseText =
+                    await response.text();
+
+                let data = [];
+
+                try {
+
+                    data =
+                        responseText
+                            ? JSON.parse(responseText)
+                            : [];
+
+                } catch (parseError) {
+
+                    console.error(
+                        "Invalid server response:",
+                        responseText
+                    );
+
+                    alert(
+                        "Server returned an invalid response."
+                    );
+
+                    return;
+
+                }
+
+
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Unable to load applications."
+                    );
+
+                    return;
+
+                }
+
+
+
+                applications =
+                    Array.isArray(data)
+                        ? data
+                        : [];
+
+
+
+                renderApplications();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Load applications error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to server."
+                );
+
+            }
+
+        }
+
+
+
+        // ================================
+        // OPEN ADD MODAL
+        // ================================
+
+        function openAddModal() {
+
+            editingId = null;
+
+            modalTitle.textContent =
+                "Add Application";
+
+            saveApplicationBtn.textContent =
+                "Save Application";
+
+            applicationForm.reset();
+
+            applicationModal.classList.add(
+                "show"
+            );
+
+        }
+
+
+
+        addApplicationBtn.addEventListener(
+            "click",
+            openAddModal
+        );
+
+
+
+        emptyAddBtn.addEventListener(
+            "click",
+            openAddModal
+        );
+
+
+
+        // ================================
+        // CLOSE MODAL
+        // ================================
+
+        function closeApplicationModal() {
+
+            applicationModal.classList.remove(
+                "show"
+            );
+
+            applicationForm.reset();
+
+            editingId = null;
+
+        }
+
+
+
+        closeModal.addEventListener(
+            "click",
+            closeApplicationModal
+        );
+
+
+
+        cancelModal.addEventListener(
+            "click",
+            closeApplicationModal
+        );
+
+
+
+        applicationModal.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target ===
+                    applicationModal
+                ) {
+
+                    closeApplicationModal();
+
+                }
+
+            }
+        );
+
+
+
+        // ================================
+        // SAVE / UPDATE
+        // ================================
+
+        applicationForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+
+                const company =
+                    companyName.value.trim();
+
+                const role =
+                    jobRole.value.trim();
+
+                const packageValue =
+                    packageInput.value.trim();
+
+                const date =
+                    appliedDate.value;
+
+                const status =
+                    applicationStatus.value;
+
+
+
+                if (
+                    !company ||
+                    !role ||
+                    !packageValue ||
+                    !date
+                ) {
+
+                    return;
+
+                }
+
+
+
+                const applicationData = {
+
+                    company:
+                        company,
+
+                    role:
+                        role,
+
+                    package:
+                        packageValue,
+
+                    date:
+                        date,
+
+                    status:
+                        status
+
+                };
+
+
+
+                const currentEditingId =
+                    editingId;
+
+
+
+                try {
+
+                    let response;
+
+
+
+                    // ADD APPLICATION
+
+                    if (
+                        currentEditingId ===
+                        null
+                    ) {
+
+                        response =
+                            await fetch(
+                                API_URL,
+                                {
+                                    method: "POST",
+
+                                    headers:
+                                        getHeaders(),
+
+                                    body:
+                                        JSON.stringify(
+                                            applicationData
+                                        )
+                                }
+                            );
+
+                    }
+
+
+
+                    // UPDATE APPLICATION
+
+                    else {
+
+                        response =
+                            await fetch(
+                                API_URL +
+                                "/" +
+                                currentEditingId,
+                                {
+                                    method: "PUT",
+
+                                    headers:
+                                        getHeaders(),
+
+                                    body:
+                                        JSON.stringify(
+                                            applicationData
+                                        )
+                                }
+                            );
+
+                    }
+
+
+
+                    if (
+                        response.status ===
+                        401
+                    ) {
+
+                        logoutUser();
+
+                        return;
+
+                    }
+
+
+
+                    const responseText =
+                        await response.text();
+
+                    let data = {};
+
+
+
+                    try {
+
+                        data =
+                            responseText
+                                ? JSON.parse(
+                                    responseText
+                                )
+                                : {};
+
+                    } catch (parseError) {
+
+                        console.error(
+                            "Invalid server response:",
+                            responseText
+                        );
+
+                        alert(
+                            "Server returned an invalid response."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    if (!response.ok) {
+
+                        alert(
+                            data.message ||
+                            "Something went wrong."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    /*
+                        IMPORTANT:
+                        Server operation succeeded.
+                        Reload data from database instead
+                        of manually modifying local array.
+                    */
+
+                    closeApplicationModal();
+
+                    await loadApplications();
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Save/update error:",
+                        error
+                    );
+
+                    alert(
+                        "Unable to connect to server."
+                    );
+
+                }
+
+            }
+        );
+
+
+
+        // ================================
+        // RENDER APPLICATIONS
+        // ================================
+
+        function renderApplications() {
+
+            applicationTable.innerHTML =
+                "";
+
+
+
+            if (
+                applications.length ===
+                0
+            ) {
+
+                emptyState.style.display =
+                    "block";
+
+            }
+
+            else {
+
+                emptyState.style.display =
+                    "none";
+
+            }
+
+
+
+            applications.forEach(
+                function (application) {
+
+                    createApplicationRow(
+                        application
+                    );
+
+                }
+            );
+
+
+
+            updateApplicationCount();
+
+        }
+
+
+
+        // ================================
+        // CREATE TABLE ROW
+        // ================================
+
+        function createApplicationRow(
+            application
+        ) {
+
+            if (!application) {
+
+                return;
+
+            }
+
+
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+
+            const statusClass =
+                String(
+                    application.status ||
+                    ""
+                )
+                .toLowerCase()
+                .replace(
+                    " ",
+                    "-"
+                );
+
+
+
+            const formattedDate =
+                application.date
+                    ? new Date(
+                        application.date
+                    ).toLocaleDateString(
+                        "en-GB",
+                        {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric"
+                        }
+                    )
+                    : "";
+
+
+
+            row.innerHTML = `
+
+                <td>
+                    <strong>
+                        ${escapeHtml(
+                            application.company
+                        )}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        application.role
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        application.package
+                    )}
+                </td>
+
+                <td>
+                    ${formattedDate}
+                </td>
+
+                <td>
+
+                    <span class="status ${statusClass}">
+                        ${escapeHtml(
+                            application.status
+                        )}
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <div class="action-buttons">
+
+                        <button
+                            class="action-btn edit-btn"
+                            onclick="editApplication(${application.id})"
+                            title="Edit"
+                        >
+                            ✏️
+                        </button>
+
+                        <button
+                            class="action-btn delete-btn"
+                            onclick="deleteApplication(${application.id})"
+                            title="Delete"
+                        >
+                            🗑️
+                        </button>
+
+                    </div>
+
+                </td>
+
+            `;
+
+
+
+            applicationTable.appendChild(
+                row
+            );
+
+        }
+
+
+
+        // ================================
+        // EDIT APPLICATION
+        // ================================
+
+        function editApplication(id) {
+
+            const application =
+                applications.find(
+                    function (item) {
+
+                        return (
+                            Number(item.id) ===
+                            Number(id)
+                        );
+
+                    }
+                );
+
+
+
+            if (!application) {
+
+                return;
+
+            }
+
+
+
+            editingId =
+                application.id;
+
+
+
+            modalTitle.textContent =
+                "Edit Application";
+
+
+
+            saveApplicationBtn.textContent =
+                "Update Application";
+
+
+
+            companyName.value =
+                application.company || "";
+
+
+
+            jobRole.value =
+                application.role || "";
+
+
+
+            packageInput.value =
+                application.package || "";
+
+
+
+            appliedDate.value =
+                application.date || "";
+
+
+
+            applicationStatus.value =
+                application.status || "Applied";
+
+
+
+            applicationModal.classList.add(
+                "show"
+            );
+
+        }
+
+
+
+        // ================================
+        // DELETE APPLICATION
+        // ================================
+
+        async function deleteApplication(id) {
+
+            const application =
+                applications.find(
+                    function (item) {
+
+                        return (
+                            Number(item.id) ===
+                            Number(id)
+                        );
+
+                    }
+                );
+
+
+
+            if (!application) {
+
+                return;
+
+            }
+
+
+
+            const confirmDelete =
+                confirm(
+                    "Delete " +
+                    application.company +
+                    " application?"
+                );
+
+
+
+            if (!confirmDelete) {
+
+                return;
+
+            }
+
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/" +
+                        id,
+                        {
+                            method: "DELETE",
+
+                            headers:
+                                getHeaders()
+                        }
+                    );
+
+
+
+                if (
+                    response.status ===
+                    401
+                ) {
+
+                    logoutUser();
+
+                    return;
+
+                }
+
+
+
+                const responseText =
+                    await response.text();
+
+                let data = {};
+
+
+
+                try {
+
+                    data =
+                        responseText
+                            ? JSON.parse(
+                                responseText
+                            )
+                            : {};
+
+                } catch (parseError) {
+
+                    console.error(
+                        "Invalid server response:",
+                        responseText
+                    );
+
+                    alert(
+                        "Server returned an invalid response."
+                    );
+
+                    return;
+
+                }
+
+
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Unable to delete application."
+                    );
+
+                    return;
+
+                }
+
+
+
+                await loadApplications();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Delete application error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to server."
+                );
+
+            }
+
+        }
+
+
+
+        // ================================
+        // COUNT
+        // ================================
+
+        function updateApplicationCount() {
+
+            const count =
+                applications.length;
+
+
+
+            applicationCount.textContent =
+                count +
+                (
+                    count === 1
+                        ? " Application"
+                        : " Applications"
+                );
+
+        }
+
+
+
+        // ================================
+        // SEARCH
+        // ================================
+
+        const searchApplication =
+            document.getElementById(
+                "searchApplication"
+            );
+
+
+
+        searchApplication.addEventListener(
+            "input",
+            filterApplications
+        );
+
+
+
+        // ================================
+        // STATUS FILTER
+        // ================================
+
+        const statusFilter =
+            document.getElementById(
+                "statusFilter"
+            );
+
+
+
+        statusFilter.addEventListener(
+            "change",
+            filterApplications
+        );
+
+
+
+        function filterApplications() {
+
+            const searchText =
+                searchApplication.value
+                    .toLowerCase()
+                    .trim();
+
+
+
+            const selectedStatus =
+                statusFilter.value;
+
+
+
+            const filtered =
+                applications.filter(
+                    function (application) {
+
+                        const company =
+                            String(
+                                application.company ||
+                                ""
+                            ).toLowerCase();
+
+                        const role =
+                            String(
+                                application.role ||
+                                ""
+                            ).toLowerCase();
+
+                        const companyMatch =
+                            company.includes(
+                                searchText
+                            );
+
+
+
+                        const roleMatch =
+                            role.includes(
+                                searchText
+                            );
+
+
+
+                        const searchMatch =
+                            companyMatch ||
+                            roleMatch;
+
+
+
+                        const statusMatch =
+                            selectedStatus ===
+                            "all"
+                            ||
+                            application.status ===
+                            selectedStatus;
+
+
+
+                        return (
+                            searchMatch &&
+                            statusMatch
+                        );
+
+                    }
+                );
+
+
+
+            renderFilteredApplications(
+                filtered
+            );
+
+        }
+
+
+
+        // ================================
+        // RENDER FILTERED
+        // ================================
+
+        function renderFilteredApplications(
+            filteredApplications
+        ) {
+
+            applicationTable.innerHTML =
+                "";
+
+
+
+            if (
+                filteredApplications.length ===
+                0
+            ) {
+
+                emptyState.style.display =
+                    "block";
+
+                applicationCount.textContent =
+                    "0 Applications";
+
+                return;
+
+            }
+
+
+
+            emptyState.style.display =
+                "none";
+
+
+
+            filteredApplications.forEach(
+                function (application) {
+
+                    createApplicationRow(
+                        application
+                    );
+
+                }
+            );
+
+
+
+            applicationCount.textContent =
+                filteredApplications.length +
+                (
+                    filteredApplications.length ===
+                    1
+                        ? " Application"
+                        : " Applications"
+                );
+
+        }
+
+
+
+        // ================================
+        // SECURITY
+        // ================================
+
+        function escapeHtml(value) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.textContent =
+                value ?? "";
+
+            return div.innerHTML;
+
+        }
+
+
+
+        // ================================
+        // INITIAL LOAD
+        // ================================
+
+        loadApplications();
+
+    </script>
+
+</body>
+
+</html>
+```

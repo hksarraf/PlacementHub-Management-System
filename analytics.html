@@ -1,0 +1,1353 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - PlacementHub</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .analytics-page {
+            padding: 30px;
+        }
+
+        .analytics-header {
+            margin-bottom: 25px;
+        }
+
+        .analytics-header h1 {
+            margin: 0 0 6px;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .analytics-header p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .analytics-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .analytics-stat-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .analytics-stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .analytics-stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: #eef2ff;
+        }
+
+        .analytics-stat-card h3 {
+            margin: 0;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .analytics-stat-card p {
+            margin: 5px 0 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .analytics-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .analytics-card h2 {
+            margin: 0 0 5px;
+            font-size: 18px;
+            color: #111827;
+        }
+
+        .analytics-card-subtitle {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .status-row {
+            margin-bottom: 18px;
+        }
+
+        .status-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 7px;
+            font-size: 13px;
+            color: #374151;
+        }
+
+        .status-label strong {
+            color: #111827;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 9px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .applied-fill {
+            background: #6366f1;
+        }
+
+        .shortlisted-fill {
+            background: #f59e0b;
+        }
+
+        .interview-fill {
+            background: #3b82f6;
+        }
+
+        .selected-fill {
+            background: #16a34a;
+        }
+
+        .rejected-fill {
+            background: #ef4444;
+        }
+
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 230px;
+            padding: 20px 10px 5px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .chart-column {
+            width: 55px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .chart-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        .chart-bar-wrapper {
+            width: 38px;
+            height: 165px;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .chart-bar {
+            width: 100%;
+            height: 0%;
+            border-radius: 8px 8px 0 0;
+            transition: height 0.5s ease;
+        }
+
+        .application-bar {
+            background: #6366f1;
+        }
+
+        .interview-bar {
+            background: #3b82f6;
+        }
+
+        .chart-label {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .placement-progress-section {
+            margin-top: 10px;
+        }
+
+        .placement-progress-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+
+        .large-progress {
+            height: 13px;
+            background: #eef2f7;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .large-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #4f46e5;
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .placement-text {
+            margin-top: 10px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .empty-analytics {
+            text-align: center;
+            padding: 30px 10px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        @media (max-width: 1100px) {
+            .analytics-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .analytics-page {
+                padding: 20px;
+            }
+
+            .analytics-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <div class="logo-icon">PH</div>
+
+            <div>
+                <h2>PlacementHub</h2>
+                <span>Student Portal</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-item">
+                <span>🏠</span>
+                Dashboard
+            </a>
+
+            <a href="applications.html" class="nav-item">
+                <span>📋</span>
+                Applications
+            </a>
+
+            <a href="companies.html" class="nav-item">
+                <span>🏢</span>
+                Companies
+            </a>
+
+            <a href="interviews.html" class="nav-item">
+                <span>📅</span>
+                Interviews
+            </a>
+
+            <a href="analytics.html" class="nav-item active">
+                <span>📊</span>
+                Analytics
+            </a>
+
+            <a href="profile.html" class="nav-item">
+                <span>👤</span>
+                My Profile
+            </a>
+
+            <a href="settings.html" class="nav-item">
+                <span>⚙️</span>
+                Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <div class="analytics-page">
+
+            <div class="analytics-header">
+                <h1>Analytics</h1>
+                <p>Track your placement activity and progress</p>
+            </div>
+
+
+            <!-- Statistics -->
+
+            <div class="analytics-stats">
+
+                <div class="analytics-stat-card">
+
+                    <div class="analytics-stat-top">
+                        <div class="analytics-stat-icon">📋</div>
+                    </div>
+
+                    <h3 id="totalApplications">0</h3>
+                    <p>Total Applications</p>
+
+                </div>
+
+
+                <div class="analytics-stat-card">
+
+                    <div class="analytics-stat-top">
+                        <div class="analytics-stat-icon">🏢</div>
+                    </div>
+
+                    <h3 id="totalCompanies">0</h3>
+                    <p>Total Companies</p>
+
+                </div>
+
+
+                <div class="analytics-stat-card">
+
+                    <div class="analytics-stat-top">
+                        <div class="analytics-stat-icon">📅</div>
+                    </div>
+
+                    <h3 id="totalInterviews">0</h3>
+                    <p>Total Interviews</p>
+
+                </div>
+
+
+                <div class="analytics-stat-card">
+
+                    <div class="analytics-stat-top">
+                        <div class="analytics-stat-icon">🎯</div>
+                    </div>
+
+                    <h3 id="totalSelected">0</h3>
+                    <p>Selected</p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Application Status + Interview Status -->
+
+            <div class="analytics-grid">
+
+                <div class="analytics-card">
+
+                    <h2>Application Status</h2>
+
+                    <div class="analytics-card-subtitle">
+                        Current application distribution
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-label">
+                            <span>Applied</span>
+                            <strong id="appliedCount">0</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill applied-fill"
+                                id="appliedProgress">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-label">
+                            <span>Shortlisted</span>
+                            <strong id="shortlistedCount">0</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill shortlisted-fill"
+                                id="shortlistedProgress">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-label">
+                            <span>Interview</span>
+                            <strong id="applicationInterviewCount">0</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill interview-fill"
+                                id="interviewProgress">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-label">
+                            <span>Selected</span>
+                            <strong id="selectedCount">0</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill selected-fill"
+                                id="selectedProgress">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-label">
+                            <span>Rejected</span>
+                            <strong id="rejectedCount">0</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill rejected-fill"
+                                id="rejectedProgress">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="analytics-card">
+
+                    <h2>Interview Status</h2>
+
+                    <div class="analytics-card-subtitle">
+                        Overview of your interviews
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-label">
+                            <span>Scheduled</span>
+                            <strong id="scheduledCount">0</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill interview-fill"
+                                id="scheduledProgress">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-label">
+                            <span>Completed</span>
+                            <strong id="completedCount">0</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill selected-fill"
+                                id="completedProgress">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="status-row">
+
+                        <div class="status-label">
+                            <span>Cancelled</span>
+                            <strong id="cancelledCount">0</strong>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div
+                                class="progress-fill rejected-fill"
+                                id="cancelledProgress">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Charts -->
+
+            <div class="analytics-grid">
+
+                <div class="analytics-card">
+
+                    <h2>Application Overview</h2>
+
+                    <div class="analytics-card-subtitle">
+                        Number of applications by status
+                    </div>
+
+                    <div class="chart-container">
+
+                        <div class="chart-column">
+
+                            <div class="chart-value" id="chartAppliedValue">0</div>
+
+                            <div class="chart-bar-wrapper">
+                                <div
+                                    class="chart-bar application-bar"
+                                    id="chartApplied">
+                                </div>
+                            </div>
+
+                            <div class="chart-label">Applied</div>
+
+                        </div>
+
+
+                        <div class="chart-column">
+
+                            <div class="chart-value" id="chartShortlistedValue">0</div>
+
+                            <div class="chart-bar-wrapper">
+                                <div
+                                    class="chart-bar application-bar"
+                                    id="chartShortlisted">
+                                </div>
+                            </div>
+
+                            <div class="chart-label">Shortlisted</div>
+
+                        </div>
+
+
+                        <div class="chart-column">
+
+                            <div class="chart-value" id="chartInterviewValue">0</div>
+
+                            <div class="chart-bar-wrapper">
+                                <div
+                                    class="chart-bar application-bar"
+                                    id="chartInterview">
+                                </div>
+                            </div>
+
+                            <div class="chart-label">Interview</div>
+
+                        </div>
+
+
+                        <div class="chart-column">
+
+                            <div class="chart-value" id="chartSelectedValue">0</div>
+
+                            <div class="chart-bar-wrapper">
+                                <div
+                                    class="chart-bar application-bar"
+                                    id="chartSelected">
+                                </div>
+                            </div>
+
+                            <div class="chart-label">Selected</div>
+
+                        </div>
+
+
+                        <div class="chart-column">
+
+                            <div class="chart-value" id="chartRejectedValue">0</div>
+
+                            <div class="chart-bar-wrapper">
+                                <div
+                                    class="chart-bar application-bar"
+                                    id="chartRejected">
+                                </div>
+                            </div>
+
+                            <div class="chart-label">Rejected</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="analytics-card">
+
+                    <h2>Interview Overview</h2>
+
+                    <div class="analytics-card-subtitle">
+                        Number of interviews by status
+                    </div>
+
+                    <div class="chart-container">
+
+                        <div class="chart-column">
+
+                            <div class="chart-value" id="chartScheduledValue">0</div>
+
+                            <div class="chart-bar-wrapper">
+                                <div
+                                    class="chart-bar interview-bar"
+                                    id="chartScheduled">
+                                </div>
+                            </div>
+
+                            <div class="chart-label">Scheduled</div>
+
+                        </div>
+
+
+                        <div class="chart-column">
+
+                            <div class="chart-value" id="chartCompletedValue">0</div>
+
+                            <div class="chart-bar-wrapper">
+                                <div
+                                    class="chart-bar interview-bar"
+                                    id="chartCompleted">
+                                </div>
+                            </div>
+
+                            <div class="chart-label">Completed</div>
+
+                        </div>
+
+
+                        <div class="chart-column">
+
+                            <div class="chart-value" id="chartCancelledValue">0</div>
+
+                            <div class="chart-bar-wrapper">
+                                <div
+                                    class="chart-bar interview-bar"
+                                    id="chartCancelled">
+                                </div>
+                            </div>
+
+                            <div class="chart-label">Cancelled</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Placement Progress -->
+
+            <div class="analytics-card">
+
+                <h2>Placement Progress</h2>
+
+                <div class="analytics-card-subtitle">
+                    Progress based on shortlisted, interview and selected applications
+                </div>
+
+
+                <div class="placement-progress-section">
+
+                    <div
+                        class="placement-progress-number"
+                        id="placementPercentage">
+                        0%
+                    </div>
+
+                    <div class="large-progress">
+
+                        <div
+                            class="large-progress-fill"
+                            id="placementProgress">
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="placement-text"
+                        id="placementText">
+                        Start adding applications to track your progress.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const authToken =
+        localStorage.getItem("authToken");
+
+
+    if (!authToken) {
+
+        window.location.href =
+            "index.html";
+
+        return;
+
+    }
+
+
+    const API_APPLICATIONS =
+        "http://localhost:3000/api/applications";
+
+    const API_COMPANIES =
+        "http://localhost:3000/api/companies";
+
+    const API_INTERVIEWS =
+        "http://localhost:3000/api/interviews";
+
+
+    async function loadAnalytics() {
+
+        try {
+
+            const headers = {
+                "Authorization":
+                    `Bearer ${authToken}`
+            };
+
+
+            const [
+                applicationsResponse,
+                companiesResponse,
+                interviewsResponse
+            ] = await Promise.all([
+
+                fetch(
+                    API_APPLICATIONS,
+                    {
+                        method: "GET",
+                        headers: headers
+                    }
+                ),
+
+                fetch(
+                    API_COMPANIES,
+                    {
+                        method: "GET",
+                        headers: headers
+                    }
+                ),
+
+                fetch(
+                    API_INTERVIEWS,
+                    {
+                        method: "GET",
+                        headers: headers
+                    }
+                )
+
+            ]);
+
+
+            if (
+                applicationsResponse.status === 401 ||
+                companiesResponse.status === 401 ||
+                interviewsResponse.status === 401
+            ) {
+
+                localStorage.removeItem("authToken");
+                localStorage.removeItem("loggedInUser");
+                localStorage.removeItem("userName");
+                localStorage.removeItem("userRole");
+                localStorage.removeItem("userId");
+
+                window.location.href =
+                    "index.html";
+
+                return;
+
+            }
+
+
+            if (
+                !applicationsResponse.ok ||
+                !companiesResponse.ok ||
+                !interviewsResponse.ok
+            ) {
+
+                throw new Error(
+                    "Unable to load analytics data."
+                );
+
+            }
+
+
+            const applications =
+                await applicationsResponse.json();
+
+            const companies =
+                await companiesResponse.json();
+
+            const interviews =
+                await interviewsResponse.json();
+
+
+            updateAnalytics(
+                applications,
+                companies,
+                interviews
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Analytics error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    function getPercentage(value, total) {
+
+        if (total === 0) {
+            return 0;
+        }
+
+        return Math.round(
+            (value / total) * 100
+        );
+
+    }
+
+
+    function updateAnalytics(
+        applications,
+        companies,
+        interviews
+    ) {
+
+
+        /* ---------------- APPLICATION COUNTS ---------------- */
+
+        const totalApplications =
+            applications.length;
+
+
+        const applied =
+            applications.filter(
+                app => app.status === "Applied"
+            ).length;
+
+
+        const shortlisted =
+            applications.filter(
+                app => app.status === "Shortlisted"
+            ).length;
+
+
+        const applicationInterviews =
+            applications.filter(
+                app => app.status === "Interview"
+            ).length;
+
+
+        const selected =
+            applications.filter(
+                app => app.status === "Selected"
+            ).length;
+
+
+        const rejected =
+            applications.filter(
+                app => app.status === "Rejected"
+            ).length;
+
+
+
+        /* ---------------- INTERVIEW COUNTS ---------------- */
+
+        const scheduled =
+            interviews.filter(
+                interview =>
+                    interview.status === "Scheduled"
+            ).length;
+
+
+        const completed =
+            interviews.filter(
+                interview =>
+                    interview.status === "Completed"
+            ).length;
+
+
+        const cancelled =
+            interviews.filter(
+                interview =>
+                    interview.status === "Cancelled"
+            ).length;
+
+
+
+        /* ---------------- TOP STATISTICS ---------------- */
+
+        document.getElementById(
+            "totalApplications"
+        ).textContent =
+            totalApplications;
+
+
+        document.getElementById(
+            "totalCompanies"
+        ).textContent =
+            companies.length;
+
+
+        document.getElementById(
+            "totalInterviews"
+        ).textContent =
+            interviews.length;
+
+
+        document.getElementById(
+            "totalSelected"
+        ).textContent =
+            selected;
+
+
+
+        /* ---------------- APPLICATION STATUS ---------------- */
+
+        document.getElementById(
+            "appliedCount"
+        ).textContent =
+            applied;
+
+
+        document.getElementById(
+            "shortlistedCount"
+        ).textContent =
+            shortlisted;
+
+
+        document.getElementById(
+            "applicationInterviewCount"
+        ).textContent =
+            applicationInterviews;
+
+
+        document.getElementById(
+            "selectedCount"
+        ).textContent =
+            selected;
+
+
+        document.getElementById(
+            "rejectedCount"
+        ).textContent =
+            rejected;
+
+
+
+        /* ---------------- APPLICATION PROGRESS ---------------- */
+
+        document.getElementById(
+            "appliedProgress"
+        ).style.width =
+            getPercentage(
+                applied,
+                totalApplications
+            ) + "%";
+
+
+        document.getElementById(
+            "shortlistedProgress"
+        ).style.width =
+            getPercentage(
+                shortlisted,
+                totalApplications
+            ) + "%";
+
+
+        document.getElementById(
+            "interviewProgress"
+        ).style.width =
+            getPercentage(
+                applicationInterviews,
+                totalApplications
+            ) + "%";
+
+
+        document.getElementById(
+            "selectedProgress"
+        ).style.width =
+            getPercentage(
+                selected,
+                totalApplications
+            ) + "%";
+
+
+        document.getElementById(
+            "rejectedProgress"
+        ).style.width =
+            getPercentage(
+                rejected,
+                totalApplications
+            ) + "%";
+
+
+
+        /* ---------------- INTERVIEW STATUS ---------------- */
+
+        document.getElementById(
+            "scheduledCount"
+        ).textContent =
+            scheduled;
+
+
+        document.getElementById(
+            "completedCount"
+        ).textContent =
+            completed;
+
+
+        document.getElementById(
+            "cancelledCount"
+        ).textContent =
+            cancelled;
+
+
+        document.getElementById(
+            "scheduledProgress"
+        ).style.width =
+            getPercentage(
+                scheduled,
+                interviews.length
+            ) + "%";
+
+
+        document.getElementById(
+            "completedProgress"
+        ).style.width =
+            getPercentage(
+                completed,
+                interviews.length
+            ) + "%";
+
+
+        document.getElementById(
+            "cancelledProgress"
+        ).style.width =
+            getPercentage(
+                cancelled,
+                interviews.length
+            ) + "%";
+
+
+
+        /* ---------------- APPLICATION CHART ---------------- */
+
+        const applicationValues = [
+            applied,
+            shortlisted,
+            applicationInterviews,
+            selected,
+            rejected
+        ];
+
+
+        const maxApplicationValue =
+            Math.max(
+                ...applicationValues,
+                1
+            );
+
+
+        document.getElementById(
+            "chartAppliedValue"
+        ).textContent =
+            applied;
+
+
+        document.getElementById(
+            "chartShortlistedValue"
+        ).textContent =
+            shortlisted;
+
+
+        document.getElementById(
+            "chartInterviewValue"
+        ).textContent =
+            applicationInterviews;
+
+
+        document.getElementById(
+            "chartSelectedValue"
+        ).textContent =
+            selected;
+
+
+        document.getElementById(
+            "chartRejectedValue"
+        ).textContent =
+            rejected;
+
+
+        document.getElementById(
+            "chartApplied"
+        ).style.height =
+            (applied / maxApplicationValue) *
+            100 + "%";
+
+
+        document.getElementById(
+            "chartShortlisted"
+        ).style.height =
+            (shortlisted / maxApplicationValue) *
+            100 + "%";
+
+
+        document.getElementById(
+            "chartInterview"
+        ).style.height =
+            (applicationInterviews / maxApplicationValue) *
+            100 + "%";
+
+
+        document.getElementById(
+            "chartSelected"
+        ).style.height =
+            (selected / maxApplicationValue) *
+            100 + "%";
+
+
+        document.getElementById(
+            "chartRejected"
+        ).style.height =
+            (rejected / maxApplicationValue) *
+            100 + "%";
+
+
+
+        /* ---------------- INTERVIEW CHART ---------------- */
+
+        const interviewValues = [
+            scheduled,
+            completed,
+            cancelled
+        ];
+
+
+        const maxInterviewValue =
+            Math.max(
+                ...interviewValues,
+                1
+            );
+
+
+        document.getElementById(
+            "chartScheduledValue"
+        ).textContent =
+            scheduled;
+
+
+        document.getElementById(
+            "chartCompletedValue"
+        ).textContent =
+            completed;
+
+
+        document.getElementById(
+            "chartCancelledValue"
+        ).textContent =
+            cancelled;
+
+
+        document.getElementById(
+            "chartScheduled"
+        ).style.height =
+            (scheduled / maxInterviewValue) *
+            100 + "%";
+
+
+        document.getElementById(
+            "chartCompleted"
+        ).style.height =
+            (completed / maxInterviewValue) *
+            100 + "%";
+
+
+        document.getElementById(
+            "chartCancelled"
+        ).style.height =
+            (cancelled / maxInterviewValue) *
+            100 + "%";
+
+
+
+        /* ---------------- PLACEMENT PROGRESS ---------------- */
+
+        let placementProgress = 0;
+
+
+        if (totalApplications > 0) {
+
+            placementProgress =
+                (
+                    (
+                        shortlisted +
+                        applicationInterviews +
+                        selected
+                    ) /
+                    totalApplications
+                ) * 100;
+
+        }
+
+
+        placementProgress =
+            Math.min(
+                Math.round(
+                    placementProgress
+                ),
+                100
+            );
+
+
+        document.getElementById(
+            "placementPercentage"
+        ).textContent =
+            placementProgress + "%";
+
+
+        document.getElementById(
+            "placementProgress"
+        ).style.width =
+            placementProgress + "%";
+
+
+        if (totalApplications === 0) {
+
+            document.getElementById(
+                "placementText"
+            ).textContent =
+                "Start adding applications to track your placement progress.";
+
+        } else {
+
+            document.getElementById(
+                "placementText"
+            ).textContent =
+                "Your current placement activity is " +
+                placementProgress +
+                "% based on application progress.";
+
+        }
+
+    }
+
+
+    loadAnalytics();
+
+});
+
+</script>
+
+</body>
+</html>
+```

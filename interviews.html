@@ -1,0 +1,1782 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PlacementHub - Interviews</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <style>
+
+        /* ================================
+           INTERVIEW PAGE
+        ================================= */
+
+        .interview-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 24px;
+        }
+
+        .interview-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            background: #ffffff;
+            transition: 0.2s ease;
+        }
+
+        .interview-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+        }
+
+        .interview-main {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 0;
+        }
+
+        .interview-company-logo {
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
+            border-radius: 14px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .interview-info h3 {
+            margin: 0 0 5px;
+            color: #111827;
+            font-size: 17px;
+        }
+
+        .interview-info p {
+            margin: 0 0 7px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .interview-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .interview-detail {
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        .interview-side {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .interview-status {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .interview-status.scheduled {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .interview-status.completed {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .interview-status.cancelled {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .interview-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        @media (max-width: 750px) {
+
+            .interview-card {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .interview-side {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="dashboard-layout">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+
+                <div class="logo-icon">
+                    PH
+                </div>
+
+                <div>
+
+                    <h2>
+                        PlacementHub
+                    </h2>
+
+                    <span>
+                        Student Portal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-nav">
+
+                <a
+                    href="dashboard.html"
+                    class="nav-item"
+                >
+                    <span>🏠</span>
+                    Dashboard
+                </a>
+
+
+                <a
+                    href="applications.html"
+                    class="nav-item"
+                >
+                    <span>📋</span>
+                    Applications
+                </a>
+
+
+                <a
+                    href="companies.html"
+                    class="nav-item"
+                >
+                    <span>🏢</span>
+                    Companies
+                </a>
+
+
+                <a
+                    href="interviews.html"
+                    class="nav-item active"
+                >
+                    <span>📅</span>
+                    Interviews
+                </a>
+
+
+                <a href="analytics.html" class="nav-item">
+                    <span>📊</span>
+                    Analytics
+                </a>
+
+
+                <a href="profile.html" class="nav-item">
+                    <span>👤</span>
+                    My Profile
+                </a>
+
+
+                <a href="settings.html" class="nav-item">
+                    <span>⚙️</span>
+                    Settings
+                </a>
+
+            </nav>
+
+
+            <a
+                href="index.html"
+                class="nav-item logout"
+                id="logoutBtn"
+            >
+                <span>🚪</span>
+                Logout
+            </a>
+
+        </aside>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main-content">
+
+
+            <!-- TOPBAR -->
+
+            <header class="topbar">
+
+                <div>
+
+                    <h1>
+                        Interviews
+                    </h1>
+
+                    <p>
+                        Schedule and manage your placement interviews
+                    </p>
+
+                </div>
+
+
+                <div class="topbar-right">
+
+                    <button class="notification-btn">
+                        🔔
+                    </button>
+
+
+                    <div class="profile-mini">
+
+                        <div class="profile-avatar">
+                            H
+                        </div>
+
+
+                        <div>
+
+                            <strong id="userName">
+                                Student
+                            </strong>
+
+                            <span>
+                                Student
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- PAGE CONTENT -->
+
+            <section class="page-content">
+
+
+                <div class="application-header">
+
+                    <div>
+
+                        <h2>
+                            Interview Schedule
+                        </h2>
+
+                        <p>
+                            Keep track of your upcoming and completed interviews.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="primary-btn"
+                        id="addInterviewBtn"
+                    >
+                        + Add Interview
+                    </button>
+
+                </div>
+
+
+
+                <!-- SEARCH + FILTER -->
+
+                <div class="application-tools">
+
+                    <div class="search-box">
+
+                        <span>
+                            🔍
+                        </span>
+
+                        <input
+                            type="text"
+                            id="searchInterview"
+                            placeholder="Search company or role..."
+                        >
+
+                    </div>
+
+
+                    <select id="interviewStatusFilter">
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="Scheduled">
+                            Scheduled
+                        </option>
+
+                        <option value="Completed">
+                            Completed
+                        </option>
+
+                        <option value="Cancelled">
+                            Cancelled
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- INTERVIEW CARD -->
+
+                <div class="application-table-card">
+
+
+                    <div class="table-header">
+
+                        <div>
+
+                            <h3>
+                                Interview Schedule
+                            </h3>
+
+                            <p>
+                                Your placement interview records
+                            </p>
+
+                        </div>
+
+
+                        <span id="interviewCount">
+                            0 Interviews
+                        </span>
+
+                    </div>
+
+
+
+                    <div
+                        id="interviewList"
+                        class="interview-list"
+                    ></div>
+
+
+
+                    <!-- EMPTY STATE -->
+
+                    <div
+                        id="emptyInterviewState"
+                        class="empty-state"
+                    >
+
+                        <div class="empty-icon">
+                            📅
+                        </div>
+
+                        <h3>
+                            No Interviews Yet
+                        </h3>
+
+                        <p>
+                            Add your placement interviews to keep track of them.
+                        </p>
+
+
+                        <button
+                            class="primary-btn"
+                            id="emptyAddInterviewBtn"
+                        >
+                            + Add Your First Interview
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- ================================
+         ADD / EDIT MODAL
+    ================================= -->
+
+    <div
+        class="modal-overlay"
+        id="interviewModal"
+    >
+
+        <div class="modal">
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2 id="interviewModalTitle">
+                        Add Interview
+                    </h2>
+
+                    <p>
+                        Enter your interview details.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="close-btn"
+                    id="closeInterviewModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <form id="interviewForm">
+
+
+                <div class="form-group">
+
+                    <label for="interviewCompany">
+                        Company Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="interviewCompany"
+                        placeholder="e.g. Infosys"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="interviewRole">
+                        Job Role
+                    </label>
+
+                    <input
+                        type="text"
+                        id="interviewRole"
+                        placeholder="e.g. Software Engineer"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="interviewDate">
+                            Interview Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="interviewDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="interviewTime">
+                            Interview Time
+                        </label>
+
+                        <input
+                            type="time"
+                            id="interviewTime"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="interviewMode">
+                            Interview Mode
+                        </label>
+
+                        <select id="interviewMode">
+
+                            <option value="Online">
+                                Online
+                            </option>
+
+                            <option value="Offline">
+                                Offline
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="interviewStatus">
+                            Status
+                        </label>
+
+                        <select id="interviewStatus">
+
+                            <option value="Scheduled">
+                                Scheduled
+                            </option>
+
+                            <option value="Completed">
+                                Completed
+                            </option>
+
+                            <option value="Cancelled">
+                                Cancelled
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="interviewLocation">
+                        Location / Meeting Link
+                    </label>
+
+                    <input
+                        type="text"
+                        id="interviewLocation"
+                        placeholder="e.g. College Campus / Google Meet"
+                    >
+
+                </div>
+
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        id="cancelInterviewModal"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                        id="saveInterviewBtn"
+                    >
+                        Save Interview
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        /* ================================
+           AUTHENTICATION
+        ================================= */
+
+        const authToken =
+            localStorage.getItem("authToken");
+
+        if (!authToken) {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        const API_URL =
+            "http://localhost:3000/api/interviews";
+
+
+        /* ================================
+           USER
+        ================================= */
+
+        const loggedInUser =
+            localStorage.getItem("loggedInUser");
+
+        const storedUserName =
+            localStorage.getItem("userName");
+
+
+        if (storedUserName) {
+
+            document.getElementById(
+                "userName"
+            ).textContent =
+                storedUserName;
+
+        } else if (loggedInUser) {
+
+            const name =
+                loggedInUser
+                    .split("@")[0]
+                    .split(".")[0];
+
+            document.getElementById(
+                "userName"
+            ).textContent =
+                name.charAt(0).toUpperCase() +
+                name.slice(1);
+
+        }
+
+
+        /* ================================
+           LOGOUT
+        ================================= */
+
+        document
+            .getElementById("logoutBtn")
+            .addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+                    localStorage.removeItem(
+                        "authToken"
+                    );
+
+                    localStorage.removeItem(
+                        "loggedInUser"
+                    );
+
+                    localStorage.removeItem(
+                        "userName"
+                    );
+
+                    localStorage.removeItem(
+                        "userRole"
+                    );
+
+                    localStorage.removeItem(
+                        "userId"
+                    );
+
+                    window.location.href =
+                        "index.html";
+
+                }
+            );
+
+
+        /* ================================
+           ELEMENTS
+        ================================= */
+
+        const interviewModal =
+            document.getElementById(
+                "interviewModal"
+            );
+
+
+        const interviewForm =
+            document.getElementById(
+                "interviewForm"
+            );
+
+
+        const interviewList =
+            document.getElementById(
+                "interviewList"
+            );
+
+
+        const emptyInterviewState =
+            document.getElementById(
+                "emptyInterviewState"
+            );
+
+
+        const interviewCount =
+            document.getElementById(
+                "interviewCount"
+            );
+
+
+        const interviewModalTitle =
+            document.getElementById(
+                "interviewModalTitle"
+            );
+
+
+        const saveInterviewBtn =
+            document.getElementById(
+                "saveInterviewBtn"
+            );
+
+
+        const interviewCompany =
+            document.getElementById(
+                "interviewCompany"
+            );
+
+
+        const interviewRole =
+            document.getElementById(
+                "interviewRole"
+            );
+
+
+        const interviewDate =
+            document.getElementById(
+                "interviewDate"
+            );
+
+
+        const interviewTime =
+            document.getElementById(
+                "interviewTime"
+            );
+
+
+        const interviewMode =
+            document.getElementById(
+                "interviewMode"
+            );
+
+
+        const interviewStatus =
+            document.getElementById(
+                "interviewStatus"
+            );
+
+
+        const interviewLocation =
+            document.getElementById(
+                "interviewLocation"
+            );
+
+
+        const searchInterview =
+            document.getElementById(
+                "searchInterview"
+            );
+
+
+        const interviewStatusFilter =
+            document.getElementById(
+                "interviewStatusFilter"
+            );
+
+
+        /* ================================
+           DATA
+        ================================= */
+
+        let interviews = [];
+
+        let editingInterviewId = null;
+
+
+        /* ================================
+           LOAD INTERVIEWS
+        ================================= */
+
+        async function loadInterviews() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " +
+                                    authToken
+                            }
+                        }
+                    );
+
+
+                if (response.status === 401) {
+
+                    localStorage.clear();
+
+                    window.location.href =
+                        "index.html";
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to load interviews."
+                    );
+
+                }
+
+
+                interviews = Array.isArray(data)
+                    ? data
+                    : [];
+
+
+                renderInterviews();
+
+            } catch (error) {
+
+                console.error(
+                    "Load interviews error:",
+                    error
+                );
+
+                interviewList.innerHTML = "";
+
+                interviewList.style.display =
+                    "none";
+
+                emptyInterviewState.style.display =
+                    "block";
+
+                interviewCount.textContent =
+                    "0 Interviews";
+
+            }
+
+        }
+
+
+        /* ================================
+           OPEN ADD MODAL
+        ================================= */
+
+        function openAddInterviewModal() {
+
+            editingInterviewId = null;
+
+            interviewModalTitle.textContent =
+                "Add Interview";
+
+            saveInterviewBtn.textContent =
+                "Save Interview";
+
+            interviewForm.reset();
+
+            interviewModal.classList.add(
+                "show"
+            );
+
+        }
+
+
+        document
+            .getElementById("addInterviewBtn")
+            .addEventListener(
+                "click",
+                openAddInterviewModal
+            );
+
+
+        document
+            .getElementById("emptyAddInterviewBtn")
+            .addEventListener(
+                "click",
+                openAddInterviewModal
+            );
+
+
+        /* ================================
+           CLOSE MODAL
+        ================================= */
+
+        function closeInterviewModal() {
+
+            interviewModal.classList.remove(
+                "show"
+            );
+
+            interviewForm.reset();
+
+            editingInterviewId = null;
+
+        }
+
+
+        document
+            .getElementById("closeInterviewModal")
+            .addEventListener(
+                "click",
+                closeInterviewModal
+            );
+
+
+        document
+            .getElementById("cancelInterviewModal")
+            .addEventListener(
+                "click",
+                closeInterviewModal
+            );
+
+
+        interviewModal.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target ===
+                    interviewModal
+                ) {
+
+                    closeInterviewModal();
+
+                }
+
+            }
+        );
+
+
+        /* ================================
+           SAVE / UPDATE
+        ================================= */
+
+        interviewForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const company =
+                    interviewCompany.value.trim();
+
+
+                const role =
+                    interviewRole.value.trim();
+
+
+                const date =
+                    interviewDate.value;
+
+
+                const time =
+                    interviewTime.value;
+
+
+                const mode =
+                    interviewMode.value;
+
+
+                const status =
+                    interviewStatus.value;
+
+
+                const location =
+                    interviewLocation.value.trim();
+
+
+                if (
+                    !company ||
+                    !role ||
+                    !date ||
+                    !time
+                ) {
+
+                    return;
+
+                }
+
+
+                const interviewData = {
+
+                    company: company,
+
+                    role: role,
+
+                    date: date,
+
+                    time: time,
+
+                    mode: mode,
+
+                    status: status,
+
+                    location: location
+
+                };
+
+
+                saveInterviewBtn.disabled =
+                    true;
+
+
+                try {
+
+                    let response;
+
+
+                    /* UPDATE */
+
+                    if (
+                        editingInterviewId !== null
+                    ) {
+
+                        response =
+                            await fetch(
+                                API_URL +
+                                "/" +
+                                editingInterviewId,
+                                {
+                                    method: "PUT",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json",
+
+                                        "Authorization":
+                                            "Bearer " +
+                                            authToken
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            interviewData
+                                        )
+                                }
+                            );
+
+                    }
+
+
+                    /* ADD */
+
+                    else {
+
+                        response =
+                            await fetch(
+                                API_URL,
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json",
+
+                                        "Authorization":
+                                            "Bearer " +
+                                            authToken
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            interviewData
+                                        )
+                                }
+                            );
+
+                    }
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (response.status === 401) {
+
+                        localStorage.clear();
+
+                        window.location.href =
+                            "index.html";
+
+                        return;
+
+                    }
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.message ||
+                            "Unable to save interview."
+                        );
+
+                    }
+
+
+                    closeInterviewModal();
+
+                    await loadInterviews();
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Save interview error:",
+                        error
+                    );
+
+                    alert(
+                        error.message ||
+                        "Unable to save interview."
+                    );
+
+                } finally {
+
+                    saveInterviewBtn.disabled =
+                        false;
+
+                }
+
+            }
+        );
+
+
+        /* ================================
+           RENDER
+        ================================= */
+
+        function renderInterviews() {
+
+            interviewList.innerHTML =
+                "";
+
+
+            if (
+                interviews.length === 0
+            ) {
+
+                interviewList.style.display =
+                    "none";
+
+                emptyInterviewState.style.display =
+                    "block";
+
+            }
+
+            else {
+
+                interviewList.style.display =
+                    "flex";
+
+                emptyInterviewState.style.display =
+                    "none";
+
+
+                interviews
+                    .slice()
+                    .reverse()
+                    .forEach(
+                        function (interview) {
+
+                            createInterviewCard(
+                                interview
+                            );
+
+                        }
+                    );
+
+            }
+
+
+            updateInterviewCount();
+
+        }
+
+
+        /* ================================
+           CREATE CARD
+        ================================= */
+
+        function escapeHtml(value) {
+
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        function createInterviewCard(
+            interview
+        ) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "interview-card";
+
+
+            const companyName =
+                String(
+                    interview.company || ""
+                );
+
+
+            const initial =
+                companyName
+                    .charAt(0)
+                    .toUpperCase();
+
+
+            const formattedDate =
+                new Date(
+                    interview.date +
+                    "T00:00:00"
+                ).toLocaleDateString(
+                    "en-GB",
+                    {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric"
+                    }
+                );
+
+
+            const statusClass =
+                String(
+                    interview.status || ""
+                ).toLowerCase();
+
+
+            card.innerHTML = `
+
+                <div class="interview-main">
+
+                    <div class="interview-company-logo">
+                        ${escapeHtml(initial)}
+                    </div>
+
+
+                    <div class="interview-info">
+
+                        <h3>
+                            ${escapeHtml(interview.company)}
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(interview.role)}
+                        </p>
+
+
+                        <div class="interview-details">
+
+                            <span class="interview-detail">
+                                📅 ${escapeHtml(formattedDate)}
+                            </span>
+
+                            <span class="interview-detail">
+                                ⏰ ${escapeHtml(interview.time)}
+                            </span>
+
+                            <span class="interview-detail">
+                                💻 ${escapeHtml(interview.mode)}
+                            </span>
+
+                            ${
+                                interview.location
+                                    ? `
+                                        <span class="interview-detail">
+                                            📍 ${escapeHtml(interview.location)}
+                                        </span>
+                                      `
+                                    : ""
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="interview-side">
+
+                    <span class="interview-status ${escapeHtml(statusClass)}">
+                        ${escapeHtml(interview.status)}
+                    </span>
+
+
+                    <div class="interview-actions">
+
+                        <button
+                            class="action-btn edit-btn"
+                            onclick="editInterview(${Number(interview.id)})"
+                            title="Edit"
+                        >
+                            ✏️
+                        </button>
+
+
+                        <button
+                            class="action-btn delete-btn"
+                            onclick="deleteInterview(${Number(interview.id)})"
+                            title="Delete"
+                        >
+                            🗑️
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            interviewList.appendChild(
+                card
+            );
+
+        }
+
+
+        /* ================================
+           EDIT
+        ================================= */
+
+        async function editInterview(id) {
+
+            const interview =
+                interviews.find(
+                    function (item) {
+
+                        return (
+                            Number(item.id) ===
+                            Number(id)
+                        );
+
+                    }
+                );
+
+
+            if (!interview) {
+                return;
+            }
+
+
+            editingInterviewId =
+                id;
+
+
+            interviewModalTitle.textContent =
+                "Edit Interview";
+
+
+            saveInterviewBtn.textContent =
+                "Update Interview";
+
+
+            interviewCompany.value =
+                interview.company;
+
+
+            interviewRole.value =
+                interview.role;
+
+
+            interviewDate.value =
+                interview.date;
+
+
+            interviewTime.value =
+                interview.time;
+
+
+            interviewMode.value =
+                interview.mode;
+
+
+            interviewStatus.value =
+                interview.status;
+
+
+            interviewLocation.value =
+                interview.location || "";
+
+
+            interviewModal.classList.add(
+                "show"
+            );
+
+        }
+
+
+        /* ================================
+           DELETE
+        ================================= */
+
+        async function deleteInterview(id) {
+
+            const interview =
+                interviews.find(
+                    function (item) {
+
+                        return (
+                            Number(item.id) ===
+                            Number(id)
+                        );
+
+                    }
+                );
+
+
+            if (!interview) {
+                return;
+            }
+
+
+            const confirmDelete =
+                confirm(
+                    "Delete " +
+                    interview.company +
+                    " interview?"
+                );
+
+
+            if (!confirmDelete) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/" +
+                        id,
+                        {
+                            method: "DELETE",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " +
+                                    authToken
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (response.status === 401) {
+
+                    localStorage.clear();
+
+                    window.location.href =
+                        "index.html";
+
+                    return;
+
+                }
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Unable to delete interview."
+                    );
+
+                }
+
+
+                await loadInterviews();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Delete interview error:",
+                    error
+                );
+
+                alert(
+                    error.message ||
+                    "Unable to delete interview."
+                );
+
+            }
+
+        }
+
+
+        /* ================================
+           COUNT
+        ================================= */
+
+        function updateInterviewCount() {
+
+            const count =
+                interviews.length;
+
+
+            interviewCount.textContent =
+                count +
+                (
+                    count === 1
+                        ? " Interview"
+                        : " Interviews"
+                );
+
+        }
+
+
+        /* ================================
+           SEARCH + FILTER
+        ================================= */
+
+        searchInterview.addEventListener(
+            "input",
+            filterInterviews
+        );
+
+
+        interviewStatusFilter.addEventListener(
+            "change",
+            filterInterviews
+        );
+
+
+        function filterInterviews() {
+
+            const searchText =
+                searchInterview.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const selectedStatus =
+                interviewStatusFilter.value;
+
+
+            const filteredInterviews =
+                interviews.filter(
+                    function (interview) {
+
+                        const companyMatch =
+                            String(
+                                interview.company || ""
+                            )
+                                .toLowerCase()
+                                .includes(
+                                    searchText
+                                );
+
+
+                        const roleMatch =
+                            String(
+                                interview.role || ""
+                            )
+                                .toLowerCase()
+                                .includes(
+                                    searchText
+                                );
+
+
+                        const searchMatch =
+                            companyMatch ||
+                            roleMatch;
+
+
+                        const statusMatch =
+                            selectedStatus ===
+                            "all"
+                            ||
+                            interview.status ===
+                            selectedStatus;
+
+
+                        return (
+                            searchMatch &&
+                            statusMatch
+                        );
+
+                    }
+                );
+
+
+            renderFilteredInterviews(
+                filteredInterviews
+            );
+
+        }
+
+
+        /* ================================
+           FILTERED RENDER
+        ================================= */
+
+        function renderFilteredInterviews(
+            filteredInterviews
+        ) {
+
+            interviewList.innerHTML =
+                "";
+
+
+            if (
+                filteredInterviews.length ===
+                0
+            ) {
+
+                interviewList.style.display =
+                    "none";
+
+                emptyInterviewState.style.display =
+                    "block";
+
+                interviewCount.textContent =
+                    "0 Interviews";
+
+                return;
+
+            }
+
+
+            interviewList.style.display =
+                "flex";
+
+
+            emptyInterviewState.style.display =
+                "none";
+
+
+            filteredInterviews
+                .slice()
+                .reverse()
+                .forEach(
+                    function (interview) {
+
+                        createInterviewCard(
+                            interview
+                        );
+
+                    }
+                );
+
+
+            interviewCount.textContent =
+                filteredInterviews.length +
+                (
+                    filteredInterviews.length === 1
+                        ? " Interview"
+                        : " Interviews"
+                );
+
+        }
+
+
+        /* ================================
+           INITIAL LOAD
+        ================================= */
+
+        loadInterviews();
+
+    </script>
+
+</body>
+
+</html>
+```

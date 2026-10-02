@@ -1,0 +1,774 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - PlacementHub</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .profile-page {
+            padding: 30px;
+        }
+
+        .profile-header {
+            margin-bottom: 25px;
+        }
+
+        .profile-header h1 {
+            margin: 0 0 6px;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .profile-header p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 22px;
+        }
+
+        .profile-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+        }
+
+        .profile-summary {
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .profile-summary h2 {
+            margin: 0 0 5px;
+            color: #111827;
+            font-size: 20px;
+        }
+
+        .profile-summary p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .profile-summary-line {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid #eef0f3;
+            text-align: left;
+        }
+
+        .profile-summary-line span {
+            display: block;
+            color: #9ca3af;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .profile-summary-line strong {
+            color: #374151;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .profile-form-card h2 {
+            margin: 0 0 5px;
+            color: #111827;
+            font-size: 19px;
+        }
+
+        .form-subtitle {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-bottom: 22px;
+        }
+
+        .profile-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: #374151;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #dfe3e8;
+            border-radius: 9px;
+            outline: none;
+            font-family: inherit;
+            font-size: 14px;
+            color: #111827;
+            background: #ffffff;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+        }
+
+        .form-group textarea {
+            min-height: 95px;
+            resize: vertical;
+        }
+
+        .profile-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        .save-profile-btn {
+            border: none;
+            background: #4f46e5;
+            color: #ffffff;
+            padding: 11px 20px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .save-profile-btn:hover {
+            background: #4338ca;
+        }
+
+        .profile-message {
+            font-size: 13px;
+            color: #16a34a;
+        }
+
+        @media (max-width: 850px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .profile-page {
+                padding: 20px;
+            }
+
+            .profile-form {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width,
+            .profile-actions {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <div class="logo-icon">PH</div>
+
+            <div>
+                <h2>PlacementHub</h2>
+                <span>Student Portal</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-item">
+                <span>🏠</span>
+                Dashboard
+            </a>
+
+            <a href="applications.html" class="nav-item">
+                <span>📋</span>
+                Applications
+            </a>
+
+            <a href="companies.html" class="nav-item">
+                <span>🏢</span>
+                Companies
+            </a>
+
+            <a href="interviews.html" class="nav-item">
+                <span>📅</span>
+                Interviews
+            </a>
+
+            <a href="analytics.html" class="nav-item">
+                <span>📊</span>
+                Analytics
+            </a>
+
+            <a href="profile.html" class="nav-item active">
+                <span>👤</span>
+                My Profile
+            </a>
+
+            <a href="settings.html" class="nav-item">
+                <span>⚙️</span>
+                Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <div class="profile-page">
+
+            <div class="profile-header">
+                <h1>My Profile</h1>
+                <p>Manage your student profile information</p>
+            </div>
+
+
+            <div class="profile-grid">
+
+                <div class="profile-card profile-summary">
+
+                    <div class="profile-avatar" id="profileAvatar">
+                        H
+                    </div>
+
+                    <h2 id="summaryName">
+                        Student Name
+                    </h2>
+
+                    <p id="summaryEmail">
+                        student@email.com
+                    </p>
+
+
+                    <div class="profile-summary-line">
+
+                        <span>Course</span>
+
+                        <strong id="summaryCourse">
+                            B.Tech CSE
+                        </strong>
+
+                    </div>
+
+
+                    <div class="profile-summary-line">
+
+                        <span>College</span>
+
+                        <strong id="summaryCollege">
+                            College Name
+                        </strong>
+
+                    </div>
+
+
+                    <div class="profile-summary-line">
+
+                        <span>Skills</span>
+
+                        <strong id="summarySkills">
+                            Add your skills
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-card profile-form-card">
+
+                    <h2>Profile Information</h2>
+
+                    <div class="form-subtitle">
+                        Update your information and save your changes
+                    </div>
+
+
+                    <form id="profileForm" class="profile-form">
+
+                        <div class="form-group">
+
+                            <label for="name">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                placeholder="Enter your full name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                placeholder="Enter your email"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="course">
+                                Course
+                            </label>
+
+                            <input
+                                type="text"
+                                id="course"
+                                placeholder="Example: B.Tech CSE"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="college">
+                                College
+                            </label>
+
+                            <input
+                                type="text"
+                                id="college"
+                                placeholder="Enter your college name"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group full-width">
+
+                            <label for="skills">
+                                Skills
+                            </label>
+
+                            <textarea
+                                id="skills"
+                                placeholder="Example: Python, SQL, HTML, CSS, JavaScript"
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="profile-actions">
+
+                            <button
+                                type="submit"
+                                class="save-profile-btn">
+                                Save Profile
+                            </button>
+
+                            <span
+                                class="profile-message"
+                                id="profileMessage">
+                            </span>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const authToken =
+        localStorage.getItem("authToken");
+
+    if (!authToken) {
+
+        window.location.href = "index.html";
+        return;
+
+    }
+
+
+    const profileForm =
+        document.getElementById("profileForm");
+
+    const profileMessage =
+        document.getElementById("profileMessage");
+
+
+    const API_URL =
+        "http://localhost:3000/api/profile";
+
+
+    /* ---------------- LOAD PROFILE ---------------- */
+
+    async function loadProfile() {
+
+        try {
+
+            const response =
+                await fetch(API_URL, {
+
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${authToken}`
+                    }
+
+                });
+
+
+            if (response.status === 401) {
+
+                localStorage.removeItem("authToken");
+                localStorage.removeItem("loggedInUser");
+                localStorage.removeItem("userName");
+                localStorage.removeItem("userRole");
+                localStorage.removeItem("userId");
+
+                window.location.href = "index.html";
+                return;
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                profileMessage.style.color =
+                    "#dc2626";
+
+                profileMessage.textContent =
+                    data.message ||
+                    "Unable to load profile.";
+
+                return;
+
+            }
+
+
+            const profile =
+                data.profile;
+
+
+            document.getElementById("name").value =
+                profile.name || "";
+
+            document.getElementById("email").value =
+                profile.email || "";
+
+            document.getElementById("course").value =
+                profile.course || "";
+
+            document.getElementById("college").value =
+                profile.college || "";
+
+            document.getElementById("skills").value =
+                profile.skills || "";
+
+
+            updateProfileDisplay(profile);
+
+        } catch (error) {
+
+            console.error(error);
+
+            profileMessage.style.color =
+                "#dc2626";
+
+            profileMessage.textContent =
+                "Unable to connect to server.";
+
+        }
+
+    }
+
+
+    /* ---------------- SAVE PROFILE ---------------- */
+
+    profileForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+            const course =
+                document
+                    .getElementById("course")
+                    .value
+                    .trim();
+
+            const college =
+                document
+                    .getElementById("college")
+                    .value
+                    .trim();
+
+            const skills =
+                document
+                    .getElementById("skills")
+                    .value
+                    .trim();
+
+
+            profileMessage.style.color =
+                "#6b7280";
+
+            profileMessage.textContent =
+                "Saving...";
+
+
+            try {
+
+                const response =
+                    await fetch(API_URL, {
+
+                        method: "PUT",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                `Bearer ${authToken}`
+
+                        },
+
+                        body: JSON.stringify({
+
+                            name: name,
+                            email: email,
+                            course: course,
+                            college: college,
+                            skills: skills
+
+                        })
+
+                    });
+
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem("authToken");
+                    localStorage.removeItem("loggedInUser");
+                    localStorage.removeItem("userName");
+                    localStorage.removeItem("userRole");
+                    localStorage.removeItem("userId");
+
+                    window.location.href = "index.html";
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    profileMessage.style.color =
+                        "#dc2626";
+
+                    profileMessage.textContent =
+                        data.message ||
+                        "Unable to save profile.";
+
+                    return;
+
+                }
+
+
+                const updatedProfile =
+                    data.profile;
+
+
+                updateProfileDisplay(
+                    updatedProfile
+                );
+
+
+                localStorage.setItem(
+                    "userName",
+                    updatedProfile.name
+                );
+
+                localStorage.setItem(
+                    "loggedInUser",
+                    updatedProfile.email
+                );
+
+
+                profileMessage.style.color =
+                    "#16a34a";
+
+                profileMessage.textContent =
+                    "Profile saved successfully!";
+
+
+                setTimeout(function () {
+
+                    profileMessage.textContent = "";
+
+                }, 2500);
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                profileMessage.style.color =
+                    "#dc2626";
+
+                profileMessage.textContent =
+                    "Unable to connect to server.";
+
+            }
+
+        }
+    );
+
+
+    /* ---------------- UPDATE DISPLAY ---------------- */
+
+    function updateProfileDisplay(profile) {
+
+        const name =
+            profile.name || "Student Name";
+
+
+        document.getElementById(
+            "summaryName"
+        ).textContent =
+            name;
+
+
+        document.getElementById(
+            "summaryEmail"
+        ).textContent =
+            profile.email ||
+            "student@email.com";
+
+
+        document.getElementById(
+            "summaryCourse"
+        ).textContent =
+            profile.course ||
+            "Not added";
+
+
+        document.getElementById(
+            "summaryCollege"
+        ).textContent =
+            profile.college ||
+            "Not added";
+
+
+        document.getElementById(
+            "summarySkills"
+        ).textContent =
+            profile.skills ||
+            "Not added";
+
+
+        const firstLetter =
+            name.charAt(0).toUpperCase();
+
+
+        document.getElementById(
+            "profileAvatar"
+        ).textContent =
+            firstLetter || "H";
+
+    }
+
+
+    await loadProfile();
+
+});
+
+</script>
+
+</body>
+</html>
+```

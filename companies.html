@@ -1,0 +1,1660 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PlacementHub - Companies</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <div class="dashboard-layout">
+
+
+        <!-- ================================
+             SIDEBAR
+        ================================= -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+
+                <div class="logo-icon">
+                    PH
+                </div>
+
+                <div>
+
+                    <h2>
+                        PlacementHub
+                    </h2>
+
+                    <span>
+                        Student Portal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-nav">
+
+                <a
+                    href="dashboard.html"
+                    class="nav-item"
+                >
+                    <span>🏠</span>
+                    Dashboard
+                </a>
+
+
+                <a
+                    href="applications.html"
+                    class="nav-item"
+                >
+                    <span>📋</span>
+                    Applications
+                </a>
+
+
+                <a
+                    href="companies.html"
+                    class="nav-item active"
+                >
+                    <span>🏢</span>
+                    Companies
+                </a>
+
+
+                <a
+                    href="interviews.html"
+                    class="nav-item"
+                >
+                    <span>📅</span>
+                    Interviews
+                </a>
+
+
+                <a href="analytics.html" class="nav-item">
+                    <span>📊</span>
+                    Analytics
+                </a>
+
+
+                <a href="profile.html" class="nav-item">
+                    <span>👤</span>
+                    My Profile
+                </a>
+
+
+                <a href="settings.html" class="nav-item">
+                    <span>⚙️</span>
+                    Settings
+                </a>
+
+            </nav>
+
+
+            <a
+                href="index.html"
+                class="nav-item logout"
+                id="logoutBtn"
+            >
+
+                <span>
+                    🚪
+                </span>
+
+                Logout
+
+            </a>
+
+        </aside>
+
+
+
+        <!-- ================================
+             MAIN CONTENT
+        ================================= -->
+
+        <main class="main-content">
+
+
+            <!-- TOPBAR -->
+
+            <header class="topbar">
+
+                <div>
+
+                    <h1>
+                        Companies
+                    </h1>
+
+                    <p>
+                        Explore and manage companies visiting your campus
+                    </p>
+
+                </div>
+
+
+                <div class="topbar-right">
+
+                    <button class="notification-btn">
+                        🔔
+                    </button>
+
+
+                    <div class="profile-mini">
+
+                        <div class="profile-avatar">
+                            H
+                        </div>
+
+
+                        <div>
+
+                            <strong id="userName">
+                                Student
+                            </strong>
+
+                            <span>
+                                Student
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- PAGE CONTENT -->
+
+            <section class="page-content">
+
+
+                <!-- PAGE HEADER -->
+
+                <div class="application-header">
+
+                    <div>
+
+                        <h2>
+                            Company Directory
+                        </h2>
+
+                        <p>
+                            Keep track of companies and their placement opportunities.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="primary-btn"
+                        id="addCompanyBtn"
+                    >
+                        + Add Company
+                    </button>
+
+                </div>
+
+
+
+                <!-- SEARCH -->
+
+                <div class="application-tools">
+
+                    <div class="search-box">
+
+                        <span>
+                            🔍
+                        </span>
+
+                        <input
+                            type="text"
+                            id="searchCompany"
+                            placeholder="Search company, role or industry..."
+                        >
+
+                    </div>
+
+
+                    <select id="industryFilter">
+
+                        <option value="all">
+                            All Industries
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- COMPANY CARD -->
+
+                <div class="application-table-card">
+
+
+                    <div class="table-header">
+
+                        <div>
+
+                            <h3>
+                                Companies
+                            </h3>
+
+                            <p>
+                                Companies added to your placement tracker
+                            </p>
+
+                        </div>
+
+
+                        <span id="companyCount">
+                            0 Companies
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- COMPANY GRID -->
+
+                    <div
+                        id="companyGrid"
+                        class="company-grid"
+                    >
+
+                        <!-- Companies will appear here -->
+
+                    </div>
+
+
+
+                    <!-- EMPTY STATE -->
+
+                    <div
+                        id="emptyCompanyState"
+                        class="empty-state"
+                    >
+
+                        <div class="empty-icon">
+                            🏢
+                        </div>
+
+                        <h3>
+                            No Companies Yet
+                        </h3>
+
+                        <p>
+                            Add companies to build your personal placement directory.
+                        </p>
+
+
+                        <button
+                            class="primary-btn"
+                            id="emptyAddCompanyBtn"
+                        >
+                            + Add Your First Company
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- ================================
+         ADD / EDIT COMPANY MODAL
+    ================================= -->
+
+    <div
+        class="modal-overlay"
+        id="companyModal"
+    >
+
+        <div class="modal">
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2 id="companyModalTitle">
+                        Add Company
+                    </h2>
+
+                    <p>
+                        Enter company and placement details.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="close-btn"
+                    id="closeCompanyModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <form id="companyForm">
+
+
+                <!-- COMPANY NAME -->
+
+                <div class="form-group">
+
+                    <label for="companyName">
+                        Company Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="companyName"
+                        placeholder="e.g. TCS"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- INDUSTRY -->
+
+                <div class="form-group">
+
+                    <label for="companyIndustry">
+                        Industry
+                    </label>
+
+                    <input
+                        type="text"
+                        id="companyIndustry"
+                        placeholder="e.g. IT Services"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- ROLE + PACKAGE -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="companyRole">
+                            Job Role
+                        </label>
+
+                        <input
+                            type="text"
+                            id="companyRole"
+                            placeholder="e.g. Software Developer"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="companyPackage">
+                            Package
+                        </label>
+
+                        <input
+                            type="text"
+                            id="companyPackage"
+                            placeholder="e.g. 6 LPA"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label for="companyLocation">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="companyLocation"
+                        placeholder="e.g. Kolkata"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- WEBSITE -->
+
+                <div class="form-group">
+
+                    <label for="companyWebsite">
+                        Company Website
+                    </label>
+
+                    <input
+                        type="url"
+                        id="companyWebsite"
+                        placeholder="https://example.com"
+                    >
+
+                </div>
+
+
+
+                <!-- ACTIONS -->
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        id="cancelCompanyModal"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                        id="saveCompanyBtn"
+                    >
+                        Save Company
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================
+         JAVASCRIPT
+    ================================= -->
+
+    <script>
+
+        /* ================================
+           AUTHENTICATION
+        ================================= */
+
+        const authToken =
+            localStorage.getItem("authToken");
+
+
+        if (!authToken) {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        const API_URL =
+            "http://localhost:3000/api/companies";
+
+
+        /* ================================
+           USER
+        ================================= */
+
+        const userName =
+            document.getElementById(
+                "userName"
+            );
+
+
+        const storedUserName =
+            localStorage.getItem(
+                "userName"
+            );
+
+
+        if (storedUserName) {
+
+            userName.textContent =
+                storedUserName;
+
+        }
+
+
+        /* ================================
+           LOGOUT
+        ================================= */
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        logoutBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+
+                localStorage.removeItem(
+                    "authToken"
+                );
+
+                localStorage.removeItem(
+                    "loggedInUser"
+                );
+
+                localStorage.removeItem(
+                    "userName"
+                );
+
+                localStorage.removeItem(
+                    "userRole"
+                );
+
+                localStorage.removeItem(
+                    "userId"
+                );
+
+
+                window.location.href =
+                    "index.html";
+
+            }
+        );
+
+
+        /* ================================
+           ELEMENTS
+        ================================= */
+
+        const addCompanyBtn =
+            document.getElementById(
+                "addCompanyBtn"
+            );
+
+
+        const emptyAddCompanyBtn =
+            document.getElementById(
+                "emptyAddCompanyBtn"
+            );
+
+
+        const companyModal =
+            document.getElementById(
+                "companyModal"
+            );
+
+
+        const closeCompanyModal =
+            document.getElementById(
+                "closeCompanyModal"
+            );
+
+
+        const cancelCompanyModal =
+            document.getElementById(
+                "cancelCompanyModal"
+            );
+
+
+        const companyForm =
+            document.getElementById(
+                "companyForm"
+            );
+
+
+        const companyGrid =
+            document.getElementById(
+                "companyGrid"
+            );
+
+
+        const emptyCompanyState =
+            document.getElementById(
+                "emptyCompanyState"
+            );
+
+
+        const companyCount =
+            document.getElementById(
+                "companyCount"
+            );
+
+
+        const companyModalTitle =
+            document.getElementById(
+                "companyModalTitle"
+            );
+
+
+        const saveCompanyBtn =
+            document.getElementById(
+                "saveCompanyBtn"
+            );
+
+
+        /* ================================
+           FORM INPUTS
+        ================================= */
+
+        const companyName =
+            document.getElementById(
+                "companyName"
+            );
+
+
+        const companyIndustry =
+            document.getElementById(
+                "companyIndustry"
+            );
+
+
+        const companyRole =
+            document.getElementById(
+                "companyRole"
+            );
+
+
+        const companyPackage =
+            document.getElementById(
+                "companyPackage"
+            );
+
+
+        const companyLocation =
+            document.getElementById(
+                "companyLocation"
+            );
+
+
+        const companyWebsite =
+            document.getElementById(
+                "companyWebsite"
+            );
+
+
+        /* ================================
+           COMPANY DATA
+        ================================= */
+
+        let companies = [];
+
+        let editingCompanyId = null;
+
+
+        /* ================================
+           LOAD COMPANIES
+        ================================= */
+
+        async function loadCompanies() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " +
+                                    authToken
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    if (
+                        response.status === 401
+                    ) {
+
+                        localStorage.removeItem(
+                            "authToken"
+                        );
+
+                        window.location.href =
+                            "index.html";
+
+                        return;
+
+                    }
+
+
+                    alert(
+                        data.message ||
+                        "Unable to load companies."
+                    );
+
+                    return;
+
+                }
+
+
+                companies = data;
+
+
+                updateIndustryFilter();
+
+                renderCompanies();
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Unable to connect to server."
+                );
+
+            }
+
+        }
+
+
+        /* ================================
+           OPEN ADD MODAL
+        ================================= */
+
+        function openAddCompanyModal() {
+
+            editingCompanyId = null;
+
+
+            companyModalTitle.textContent =
+                "Add Company";
+
+
+            saveCompanyBtn.textContent =
+                "Save Company";
+
+
+            companyForm.reset();
+
+
+            companyModal.classList.add(
+                "show"
+            );
+
+        }
+
+
+        addCompanyBtn.addEventListener(
+            "click",
+            openAddCompanyModal
+        );
+
+
+        emptyAddCompanyBtn.addEventListener(
+            "click",
+            openAddCompanyModal
+        );
+
+
+        /* ================================
+           CLOSE MODAL
+        ================================= */
+
+        function closeModal() {
+
+            companyModal.classList.remove(
+                "show"
+            );
+
+
+            companyForm.reset();
+
+
+            editingCompanyId = null;
+
+        }
+
+
+        closeCompanyModal.addEventListener(
+            "click",
+            closeModal
+        );
+
+
+        cancelCompanyModal.addEventListener(
+            "click",
+            closeModal
+        );
+
+
+        companyModal.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target ===
+                    companyModal
+                ) {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+
+        /* ================================
+           SAVE / UPDATE COMPANY
+        ================================= */
+
+        companyForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const company =
+                    companyName.value.trim();
+
+
+                const industry =
+                    companyIndustry.value.trim();
+
+
+                const role =
+                    companyRole.value.trim();
+
+
+                const packageValue =
+                    companyPackage.value.trim();
+
+
+                const location =
+                    companyLocation.value.trim();
+
+
+                const website =
+                    companyWebsite.value.trim();
+
+
+                if (
+                    !company ||
+                    !industry ||
+                    !role ||
+                    !packageValue ||
+                    !location
+                ) {
+
+                    return;
+
+                }
+
+
+                const companyData = {
+
+                    name: company,
+
+                    industry: industry,
+
+                    role: role,
+
+                    package: packageValue,
+
+                    location: location,
+
+                    website: website
+
+                };
+
+
+                try {
+
+                    let response;
+
+
+                    /* ================================
+                       UPDATE
+                    ================================= */
+
+                    if (
+                        editingCompanyId !== null
+                    ) {
+
+                        response =
+                            await fetch(
+                                API_URL +
+                                "/" +
+                                editingCompanyId,
+                                {
+                                    method: "PUT",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json",
+
+                                        "Authorization":
+                                            "Bearer " +
+                                            authToken
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            companyData
+                                        )
+                                }
+                            );
+
+                    }
+
+
+                    /* ================================
+                       ADD
+                    ================================= */
+
+                    else {
+
+                        response =
+                            await fetch(
+                                API_URL,
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json",
+
+                                        "Authorization":
+                                            "Bearer " +
+                                            authToken
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            companyData
+                                        )
+                                }
+                            );
+
+                    }
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        alert(
+                            data.message ||
+                            "Unable to save company."
+                        );
+
+                        return;
+
+                    }
+
+
+                    await loadCompanies();
+
+
+                    closeModal();
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    alert(
+                        "Unable to connect to server."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* ================================
+           RENDER COMPANIES
+        ================================= */
+
+        function renderCompanies() {
+
+            companyGrid.innerHTML = "";
+
+
+            updateCompanyCount();
+
+
+            if (
+                companies.length === 0
+            ) {
+
+                emptyCompanyState.style.display =
+                    "block";
+
+                companyGrid.style.display =
+                    "none";
+
+                return;
+
+            }
+
+
+            emptyCompanyState.style.display =
+                "none";
+
+
+            companyGrid.style.display =
+                "grid";
+
+
+            companies.forEach(
+                function (company) {
+
+                    createCompanyCard(
+                        company
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* ================================
+           CREATE COMPANY CARD
+        ================================= */
+
+        function createCompanyCard(
+            company
+        ) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "company-card";
+
+
+            const initial =
+                company.name
+                    .charAt(0)
+                    .toUpperCase();
+
+
+            card.innerHTML = `
+
+                <div class="company-card-top">
+
+                    <div class="company-logo-large">
+                        ${escapeHtml(initial)}
+                    </div>
+
+                    <div class="company-card-actions">
+
+                        <button
+                            class="action-btn edit-btn"
+                            onclick="editCompany(${company.id})"
+                            title="Edit"
+                        >
+                            ✏️
+                        </button>
+
+                        <button
+                            class="action-btn delete-btn"
+                            onclick="deleteCompany(${company.id})"
+                            title="Delete"
+                        >
+                            🗑️
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="company-card-content">
+
+                    <h3>
+                        ${escapeHtml(company.name)}
+                    </h3>
+
+                    <span class="company-industry">
+                        ${escapeHtml(company.industry)}
+                    </span>
+
+                    <div class="company-detail">
+                        <span>💼</span>
+                        ${escapeHtml(company.role)}
+                    </div>
+
+                    <div class="company-detail">
+                        <span>💰</span>
+                        ${escapeHtml(company.package)}
+                    </div>
+
+                    <div class="company-detail">
+                        <span>📍</span>
+                        ${escapeHtml(company.location)}
+                    </div>
+
+                </div>
+
+
+                <div class="company-card-footer">
+
+                    ${
+                        company.website
+                            ? `
+                                <a
+                                    href="${escapeHtml(company.website)}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="company-link"
+                                >
+                                    Visit Website ↗
+                                </a>
+                              `
+                            : `
+                                <span class="company-no-link">
+                                    No website added
+                                </span>
+                              `
+                    }
+
+                </div>
+
+            `;
+
+
+            companyGrid.appendChild(
+                card
+            );
+
+        }
+
+
+        /* ================================
+           ESCAPE HTML
+        ================================= */
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* ================================
+           EDIT COMPANY
+        ================================= */
+
+        function editCompany(id) {
+
+            const company =
+                companies.find(
+                    function (item) {
+
+                        return (
+                            item.id === id
+                        );
+
+                    }
+                );
+
+
+            if (!company) {
+
+                return;
+
+            }
+
+
+            editingCompanyId =
+                id;
+
+
+            companyModalTitle.textContent =
+                "Edit Company";
+
+
+            saveCompanyBtn.textContent =
+                "Update Company";
+
+
+            companyName.value =
+                company.name;
+
+
+            companyIndustry.value =
+                company.industry;
+
+
+            companyRole.value =
+                company.role;
+
+
+            companyPackage.value =
+                company.package;
+
+
+            companyLocation.value =
+                company.location;
+
+
+            companyWebsite.value =
+                company.website || "";
+
+
+            companyModal.classList.add(
+                "show"
+            );
+
+        }
+
+
+        /* ================================
+           DELETE COMPANY
+        ================================= */
+
+        async function deleteCompany(id) {
+
+            const company =
+                companies.find(
+                    function (item) {
+
+                        return (
+                            item.id === id
+                        );
+
+                    }
+                );
+
+
+            if (!company) {
+
+                return;
+
+            }
+
+
+            const confirmDelete =
+                confirm(
+                    "Delete " +
+                    company.name +
+                    " from your company directory?"
+                );
+
+
+            if (!confirmDelete) {
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL +
+                        "/" +
+                        id,
+                        {
+                            method: "DELETE",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " +
+                                    authToken
+                            }
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    alert(
+                        data.message ||
+                        "Unable to delete company."
+                    );
+
+                    return;
+
+                }
+
+
+                await loadCompanies();
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Unable to connect to server."
+                );
+
+            }
+
+        }
+
+
+        /* ================================
+           COMPANY COUNT
+        ================================= */
+
+        function updateCompanyCount() {
+
+            const count =
+                companies.length;
+
+
+            companyCount.textContent =
+                count +
+                (
+                    count === 1
+                        ? " Company"
+                        : " Companies"
+                );
+
+        }
+
+
+        /* ================================
+           SEARCH
+        ================================= */
+
+        const searchCompany =
+            document.getElementById(
+                "searchCompany"
+            );
+
+
+        searchCompany.addEventListener(
+            "input",
+            filterCompanies
+        );
+
+
+        /* ================================
+           FILTER
+        ================================= */
+
+        const industryFilter =
+            document.getElementById(
+                "industryFilter"
+            );
+
+
+        industryFilter.addEventListener(
+            "change",
+            filterCompanies
+        );
+
+
+        function filterCompanies() {
+
+            const searchText =
+                searchCompany.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const selectedIndustry =
+                industryFilter.value;
+
+
+            const filteredCompanies =
+                companies.filter(
+                    function (company) {
+
+                        const searchMatch =
+
+                            company.name
+                                .toLowerCase()
+                                .includes(
+                                    searchText
+                                )
+
+                            ||
+
+                            company.industry
+                                .toLowerCase()
+                                .includes(
+                                    searchText
+                                )
+
+                            ||
+
+                            company.role
+                                .toLowerCase()
+                                .includes(
+                                    searchText
+                                );
+
+
+                        const industryMatch =
+
+                            selectedIndustry ===
+                            "all"
+
+                            ||
+
+                            company.industry ===
+                            selectedIndustry;
+
+
+                        return (
+                            searchMatch &&
+                            industryMatch
+                        );
+
+                    }
+                );
+
+
+            renderFilteredCompanies(
+                filteredCompanies
+            );
+
+        }
+
+
+        /* ================================
+           RENDER FILTERED
+        ================================= */
+
+        function renderFilteredCompanies(
+            filteredCompanies
+        ) {
+
+            companyGrid.innerHTML =
+                "";
+
+
+            if (
+                filteredCompanies.length ===
+                0
+            ) {
+
+                companyGrid.style.display =
+                    "none";
+
+
+                emptyCompanyState.style.display =
+                    "block";
+
+
+                companyCount.textContent =
+                    "0 Companies";
+
+
+                return;
+
+            }
+
+
+            emptyCompanyState.style.display =
+                "none";
+
+
+            companyGrid.style.display =
+                "grid";
+
+
+            filteredCompanies.forEach(
+                function (company) {
+
+                    createCompanyCard(
+                        company
+                    );
+
+                }
+            );
+
+
+            companyCount.textContent =
+                filteredCompanies.length +
+                (
+                    filteredCompanies.length ===
+                    1
+                        ? " Company"
+                        : " Companies"
+                );
+
+        }
+
+
+        /* ================================
+           UPDATE INDUSTRY FILTER
+        ================================= */
+
+        function updateIndustryFilter() {
+
+            const industries =
+                [
+                    ...new Set(
+                        companies.map(
+                            function (company) {
+
+                                return company.industry;
+
+                            }
+                        )
+                    )
+                ];
+
+
+            industryFilter.innerHTML = `
+                <option value="all">
+                    All Industries
+                </option>
+            `;
+
+
+            industries.forEach(
+                function (industry) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    option.value =
+                        industry;
+
+
+                    option.textContent =
+                        industry;
+
+
+                    industryFilter.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* ================================
+           INITIAL LOAD
+        ================================= */
+
+        loadCompanies();
+
+    </script>
+
+</body>
+
+</html>
+```

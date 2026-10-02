@@ -1,0 +1,1608 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PlacementHub - Admin Panel</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            background: #111827;
+            color: white;
+            padding: 24px 18px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 10px 30px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: #2563eb;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo-text h2 {
+            font-size: 18px;
+        }
+
+        .logo-text span {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .nav {
+            margin-top: 15px;
+        }
+
+        .nav-item {
+            padding: 13px 14px;
+            border-radius: 8px;
+            margin-bottom: 7px;
+            cursor: pointer;
+            color: #d1d5db;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-item.active,
+        .nav-item:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        .logout {
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            bottom: 25px;
+            padding: 12px;
+            background: #dc2626;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .logout:hover {
+            background: #b91c1c;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 27px;
+            color: #111827;
+        }
+
+        .admin-info {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            font-size: 14px;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .stat-card p {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h2 {
+            font-size: 28px;
+            color: #111827;
+        }
+
+        /* ================= STUDENTS ================= */
+
+        .students-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .students-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .students-header h2 {
+            font-size: 20px;
+        }
+
+        .search {
+            width: 280px;
+            padding: 11px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .search:focus {
+            border-color: #2563eb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 13px 10px;
+            background: #f9fafb;
+            color: #6b7280;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #eef0f3;
+            font-size: 14px;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
+
+        .btn {
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .view-btn {
+            background: #2563eb;
+            color: white;
+            margin-right: 6px;
+        }
+
+        .view-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .delete-btn:hover {
+            background: #fecaca;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #6b7280;
+        }
+
+        /* ================= MODAL ================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-box {
+            width: 850px;
+            max-width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 14px;
+            padding: 28px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+        }
+
+        .close {
+            font-size: 25px;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .close:hover {
+            color: #111827;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+
+        .info-box {
+            background: #f9fafb;
+            padding: 14px;
+            border-radius: 8px;
+        }
+
+        .info-box small {
+            color: #6b7280;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-box strong {
+            font-size: 14px;
+            word-break: break-word;
+        }
+
+        .detail-section {
+            margin-top: 22px;
+        }
+
+        .detail-section h3 {
+            font-size: 17px;
+            margin-bottom: 12px;
+        }
+
+        .detail-list {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .detail-list strong {
+            color: #111827;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .students-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .search {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                width: 180px;
+            }
+
+            .main {
+                margin-left: 180px;
+                width: calc(100% - 180px);
+                padding: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .student-info {
+                grid-template-columns: 1fr;
+            }
+
+            .logo-text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                PH
+            </div>
+
+            <div class="logo-text">
+                <h2>PlacementHub</h2>
+                <span>Admin Panel</span>
+            </div>
+
+        </div>
+
+        <div class="nav">
+
+            <div
+                class="nav-item active"
+                id="dashboardNav"
+            >
+                Dashboard
+            </div>
+
+            <div
+                class="nav-item"
+                id="studentsNav"
+            >
+                Students
+            </div>
+
+        </div>
+
+        <div
+            class="logout"
+            id="logoutBtn"
+        >
+            Logout
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div>
+                <h1>Admin Dashboard</h1>
+            </div>
+
+            <div class="admin-info">
+                Admin:
+                <strong id="adminName">
+                    PlacementHub Admin
+                </strong>
+            </div>
+
+        </div>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboardSection">
+
+            <section class="stats">
+
+                <div class="stat-card">
+                    <p>Total Students</p>
+                    <h2 id="totalStudents">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Total Applications</p>
+                    <h2 id="totalApplications">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Total Companies</p>
+                    <h2 id="totalCompanies">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Total Interviews</p>
+                    <h2 id="totalInterviews">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Selected Students</p>
+                    <h2 id="totalSelected">0</h2>
+                </div>
+
+            </section>
+
+        </section>
+
+
+        <!-- ================= STUDENTS ================= -->
+
+        <section
+            class="students-card"
+            id="studentsSection"
+        >
+
+            <div class="students-header">
+
+                <h2>Registered Students</h2>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search"
+                    placeholder="Search student..."
+                >
+
+            </div>
+
+            <div style="overflow-x:auto;">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Registered</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="studentsTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ================= STUDENT DETAILS MODAL ================= -->
+
+<div
+    class="modal"
+    id="studentModal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>Student Details</h2>
+
+            <span
+                class="close"
+                id="closeModal"
+            >
+                &times;
+            </span>
+
+        </div>
+
+
+        <div class="student-info">
+
+            <div class="info-box">
+                <small>Name</small>
+                <strong id="detailName">-</strong>
+            </div>
+
+            <div class="info-box">
+                <small>Email</small>
+                <strong id="detailEmail">-</strong>
+            </div>
+
+            <div class="info-box">
+                <small>Course</small>
+                <strong id="detailCourse">-</strong>
+            </div>
+
+            <div class="info-box">
+                <small>College</small>
+                <strong id="detailCollege">-</strong>
+            </div>
+
+            <div class="info-box">
+                <small>Applications</small>
+                <strong id="detailApplications">0</strong>
+            </div>
+
+            <div class="info-box">
+                <small>Companies</small>
+                <strong id="detailCompanies">0</strong>
+            </div>
+
+            <div class="info-box">
+                <small>Interviews</small>
+                <strong id="detailInterviews">0</strong>
+            </div>
+
+            <div class="info-box">
+                <small>Skills</small>
+                <strong id="detailSkills">-</strong>
+            </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+            <h3>Applications</h3>
+
+            <div id="applicationsList">
+
+                <div class="empty">
+                    No applications found.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-section">
+
+            <h3>Interviews</h3>
+
+            <div id="interviewsList">
+
+                <div class="empty">
+                    No interviews found.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const API_URL = "http://localhost:3000";
+
+    const token =
+        localStorage.getItem("authToken");
+
+    const role =
+        localStorage.getItem("userRole");
+
+
+    /* ================= AUTH ================= */
+
+    if (!token || role !== "admin") {
+
+        window.location.href =
+            "./index.html";
+
+    }
+
+
+    const headers = {
+
+        "Content-Type": "application/json",
+
+        "Authorization":
+            "Bearer " + token
+
+    };
+
+
+    /* ================= ELEMENTS ================= */
+
+    const dashboardNav =
+        document.getElementById(
+            "dashboardNav"
+        );
+
+    const studentsNav =
+        document.getElementById(
+            "studentsNav"
+        );
+
+    const dashboardSection =
+        document.getElementById(
+            "dashboardSection"
+        );
+
+    const studentsSection =
+        document.getElementById(
+            "studentsSection"
+        );
+
+
+    /* ================= SIDEBAR DASHBOARD BUTTON ================= */
+
+    dashboardNav.addEventListener(
+        "click",
+        function() {
+
+            dashboardNav.classList.add("active");
+
+            studentsNav.classList.remove("active");
+
+            dashboardSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+    );
+
+
+    /* ================= SIDEBAR STUDENTS BUTTON ================= */
+
+    studentsNav.addEventListener(
+        "click",
+        function() {
+
+            studentsNav.classList.add("active");
+
+            dashboardNav.classList.remove("active");
+
+            studentsSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+    );
+
+
+    /* ================= ADMIN NAME ================= */
+
+    const savedName =
+        localStorage.getItem("userName");
+
+    if (savedName) {
+
+        document.getElementById(
+            "adminName"
+        ).textContent = savedName;
+
+    }
+
+
+    /* ================= ESCAPE HTML ================= */
+
+    function escapeHTML(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* ================= LOGOUT ================= */
+
+    function logout() {
+
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("loggedInUser");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("userId");
+
+        window.location.href =
+            "./index.html";
+
+    }
+
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener(
+            "click",
+            logout
+        );
+
+
+    /* ================= LOAD STATS ================= */
+
+    async function loadStats() {
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/api/admin/stats",
+                    {
+                        headers: headers
+                    }
+                );
+
+
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
+
+                logout();
+
+                return;
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            document.getElementById(
+                "totalStudents"
+            ).textContent =
+                data.students ?? 0;
+
+
+            document.getElementById(
+                "totalApplications"
+            ).textContent =
+                data.applications ?? 0;
+
+
+            document.getElementById(
+                "totalCompanies"
+            ).textContent =
+                data.companies ?? 0;
+
+
+            document.getElementById(
+                "totalInterviews"
+            ).textContent =
+                data.interviews ?? 0;
+
+
+            document.getElementById(
+                "totalSelected"
+            ).textContent =
+                data.selected ?? 0;
+
+
+        } catch (error) {
+
+            console.error(
+                "Stats error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* ================= STUDENTS ================= */
+
+    let students = [];
+
+
+    async function loadStudents() {
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/api/admin/students",
+                    {
+                        headers: headers
+                    }
+                );
+
+
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
+
+                logout();
+
+                return;
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to load students."
+                );
+
+            }
+
+
+            students = data;
+
+            renderStudents(students);
+
+
+        } catch (error) {
+
+            console.error(
+                "Students error:",
+                error
+            );
+
+            document.getElementById(
+                "studentsTable"
+            ).innerHTML = `
+
+                <tr>
+                    <td
+                        colspan="5"
+                        class="empty"
+                    >
+                        Unable to load students.
+                    </td>
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+
+    /* ================= RENDER STUDENTS ================= */
+
+    function renderStudents(list) {
+
+        const table =
+            document.getElementById(
+                "studentsTable"
+            );
+
+
+        table.innerHTML = "";
+
+
+        if (!list.length) {
+
+            table.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="5"
+                        class="empty"
+                    >
+                        No students found.
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        list.forEach(
+            function(student) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${escapeHTML(student.id)}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${escapeHTML(student.name)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHTML(student.email)}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            student.created_at || "-"
+                        )}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="btn view-btn"
+                            data-action="view"
+                            data-id="${student.id}"
+                        >
+                            View
+                        </button>
+
+                        <button
+                            class="btn delete-btn"
+                            data-action="delete"
+                            data-id="${student.id}"
+                            data-name="${escapeHTML(student.name)}"
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            }
+        );
+
+    }
+
+
+    /* ================= BUTTON HANDLER ================= */
+
+    document
+        .getElementById("studentsTable")
+        .addEventListener(
+            "click",
+            function(event) {
+
+                const button =
+                    event.target.closest(
+                        "button"
+                    );
+
+
+                if (!button) {
+                    return;
+                }
+
+
+                const action =
+                    button.dataset.action;
+
+                const id =
+                    button.dataset.id;
+
+
+                if (action === "view") {
+
+                    viewStudent(id);
+
+                }
+
+
+                if (action === "delete") {
+
+                    deleteStudent(
+                        id,
+                        button.dataset.name
+                    );
+
+                }
+
+            }
+        );
+
+
+    /* ================= SEARCH ================= */
+
+    document
+        .getElementById("searchInput")
+        .addEventListener(
+            "input",
+            function() {
+
+                const value =
+                    this.value
+                        .toLowerCase()
+                        .trim();
+
+
+                const filtered =
+                    students.filter(
+                        function(student) {
+
+                            return (
+
+                                String(
+                                    student.name || ""
+                                )
+                                .toLowerCase()
+                                .includes(value)
+
+                                ||
+
+                                String(
+                                    student.email || ""
+                                )
+                                .toLowerCase()
+                                .includes(value)
+
+                            );
+
+                        }
+                    );
+
+
+                renderStudents(filtered);
+
+            }
+        );
+
+
+    /* ================= VIEW STUDENT ================= */
+
+    async function viewStudent(id) {
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/api/admin/students/" +
+                    id,
+                    {
+                        headers: headers
+                    }
+                );
+
+
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
+
+                logout();
+
+                return;
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                alert(
+                    data.message ||
+                    "Unable to load student."
+                );
+
+                return;
+
+            }
+
+
+            const student =
+                data.student;
+
+            const profile =
+                data.profile ||
+                {};
+
+
+            document.getElementById(
+                "detailName"
+            ).textContent =
+                student.name || "-";
+
+
+            document.getElementById(
+                "detailEmail"
+            ).textContent =
+                student.email || "-";
+
+
+            document.getElementById(
+                "detailCourse"
+            ).textContent =
+                profile.course || "-";
+
+
+            document.getElementById(
+                "detailCollege"
+            ).textContent =
+                profile.college || "-";
+
+
+            document.getElementById(
+                "detailSkills"
+            ).textContent =
+                profile.skills || "-";
+
+
+            document.getElementById(
+                "detailApplications"
+            ).textContent =
+                data.applications.length;
+
+
+            document.getElementById(
+                "detailCompanies"
+            ).textContent =
+                data.companies.length;
+
+
+            document.getElementById(
+                "detailInterviews"
+            ).textContent =
+                data.interviews.length;
+
+
+            /* APPLICATIONS */
+
+            const applicationsList =
+                document.getElementById(
+                    "applicationsList"
+                );
+
+
+            applicationsList.innerHTML = "";
+
+
+            if (
+                !data.applications ||
+                !data.applications.length
+            ) {
+
+                applicationsList.innerHTML = `
+
+                    <div class="empty">
+                        No applications found.
+                    </div>
+
+                `;
+
+            } else {
+
+                data.applications.forEach(
+                    function(application) {
+
+                        const div =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        div.className =
+                            "detail-list";
+
+
+                        div.innerHTML = `
+
+                            <strong>
+                                ${escapeHTML(
+                                    application.company_name ||
+                                    application.company ||
+                                    "-"
+                                )}
+                            </strong>
+
+                            <br>
+
+                            Position:
+                            ${escapeHTML(
+                                application.position ||
+                                application.role ||
+                                "-"
+                            )}
+
+                            <br>
+
+                            Status:
+                            ${escapeHTML(
+                                application.status ||
+                                "-"
+                            )}
+
+                            <br>
+
+                            Package:
+                            ${escapeHTML(
+                                application.package ||
+                                "-"
+                            )}
+
+                        `;
+
+
+                        applicationsList
+                            .appendChild(div);
+
+                    }
+                );
+
+            }
+
+
+            /* INTERVIEWS */
+
+            const interviewsList =
+                document.getElementById(
+                    "interviewsList"
+                );
+
+
+            interviewsList.innerHTML = "";
+
+
+            if (
+                !data.interviews ||
+                !data.interviews.length
+            ) {
+
+                interviewsList.innerHTML = `
+
+                    <div class="empty">
+                        No interviews found.
+                    </div>
+
+                `;
+
+            } else {
+
+                data.interviews.forEach(
+                    function(interview) {
+
+                        const div =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        div.className =
+                            "detail-list";
+
+
+                        div.innerHTML = `
+
+                            <strong>
+                                ${escapeHTML(
+                                    interview.company_name ||
+                                    interview.company ||
+                                    "-"
+                                )}
+                            </strong>
+
+                            <br>
+
+                            Date:
+                            ${escapeHTML(
+                                interview.date ||
+                                "-"
+                            )}
+
+                            <br>
+
+                            Time:
+                            ${escapeHTML(
+                                interview.time ||
+                                "-"
+                            )}
+
+                            <br>
+
+                            Type:
+                            ${escapeHTML(
+                                interview.type ||
+                                "-"
+                            )}
+
+                            <br>
+
+                            Status:
+                            ${escapeHTML(
+                                interview.status ||
+                                "-"
+                            )}
+
+                        `;
+
+
+                        interviewsList
+                            .appendChild(div);
+
+                    }
+                );
+
+            }
+
+
+            document.getElementById(
+                "studentModal"
+            ).style.display = "flex";
+
+
+        } catch (error) {
+
+            console.error(
+                "Student details error:",
+                error
+            );
+
+            alert(
+                "Unable to load student details."
+            );
+
+        }
+
+    }
+
+
+    /* ================= DELETE STUDENT ================= */
+
+    async function deleteStudent(
+        id,
+        name
+    ) {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to delete " +
+                name +
+                "?\n\nThis will permanently delete the student's account and placement data."
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/api/admin/students/" +
+                    id,
+                    {
+                        method: "DELETE",
+                        headers: headers
+                    }
+                );
+
+
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
+
+                logout();
+
+                return;
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                alert(
+                    data.message ||
+                    "Unable to delete student."
+                );
+
+                return;
+
+            }
+
+
+            alert(
+                "Student deleted successfully."
+            );
+
+
+            await loadStats();
+
+            await loadStudents();
+
+
+        } catch (error) {
+
+            console.error(
+                "Delete error:",
+                error
+            );
+
+            alert(
+                "Unable to connect to server."
+            );
+
+        }
+
+    }
+
+
+    /* ================= CLOSE MODAL ================= */
+
+    document
+        .getElementById("closeModal")
+        .addEventListener(
+            "click",
+            function() {
+
+                document.getElementById(
+                    "studentModal"
+                ).style.display = "none";
+
+            }
+        );
+
+
+    document
+        .getElementById("studentModal")
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === this
+                ) {
+
+                    this.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+    /* ================= ESC KEY ================= */
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                document.getElementById(
+                    "studentModal"
+                ).style.display = "none";
+
+            }
+
+        }
+    );
+
+
+    /* ================= INITIAL LOAD ================= */
+
+    loadStats();
+
+    loadStudents();
+
+</script>
+
+</body>
