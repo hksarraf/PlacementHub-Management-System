@@ -1069,10 +1069,12 @@ app.delete(
 /* ================= SERVER ================= */
 require("./admin")(app, db, authenticateToken);
 
-app.listen(3000, function () {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, function () {
 
     console.log(
-        "PlacementHub backend running at http://localhost:3000"
+        `PlacementHub backend running on port ${PORT}`
     );
 
 });
