@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const response =
                     await fetch(
-                        "http://localhost:3000/api/login",
+                        "https://placementhub-management-system.onrender.commanagement-system.onrender.commanagement-system.onrender.com/api/login",
                         {
                             method: "POST",
 
