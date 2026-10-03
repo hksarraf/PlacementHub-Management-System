@@ -139,6 +139,9 @@
             <!-- TOPBAR -->
 
             <header class="topbar">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+    ☰
+</button>
 
                 <div>
 
@@ -1009,6 +1012,26 @@
         // ================================
         // INITIAL LOAD
         // ================================
+
+        // ================================
+// MOBILE SIDEBAR
+// ================================
+
+const mobileMenuBtn =
+    document.getElementById("mobileMenuBtn");
+
+const sidebar =
+    document.querySelector(".sidebar");
+
+if (mobileMenuBtn && sidebar) {
+
+    mobileMenuBtn.addEventListener("click", function () {
+
+        sidebar.classList.toggle("mobile-open");
+
+    });
+
+} 
 
         loadDashboard();
 
